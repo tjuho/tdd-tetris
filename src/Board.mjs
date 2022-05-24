@@ -18,7 +18,28 @@ export class Board {
     }
   }
 
+  isBlockFalling() {
+    for (let r=this.height-1; r>-1; r--){
+      for (let c=0; c<this.width; c++){
+        let block = this.matrix[r][c];
+        if (block.notEmpty() && this.isEmpty(c,r+1)) {
+          return true;
+        }
+      }
+    }
+  }
+
+  isEmpty(c,r) {
+    if (c < 0 || c >= this.width || r < 0 || r >= this.height) {
+      return false
+    }
+    return this.matrix[r][c].color === '.';
+  }
+
   drop(block) {
+    if (this.isBlockFalling()) {
+      throw "already falling";
+    }
     let middle = parseInt(this.width/2);
     this.matrix[0][middle] = block;
   }
@@ -27,7 +48,7 @@ export class Board {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
         let block = this.matrix[r][c];
-        if (block.notEmpty()) {
+        if (block.notEmpty() && this.isEmpty(c,r+1)) {
           let temp = this.matrix[r+1][c]
           this.matrix[r+1][c] = block
           this.matrix[r][c] = temp

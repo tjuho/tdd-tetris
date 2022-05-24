@@ -30,6 +30,13 @@ describe("Falling blocks", () => {
       );
     });
 
+    it("checks if spot is empty", () => {
+      expect(board.isEmpty(1,0)).to.be.false;
+    });
+    it("checks if spot is empty", () => {
+      expect(board.isEmpty(1,1)).to.be.true;
+    });
+
     it("it moves down one row per tick", () => {
       board.tick();
 
@@ -40,7 +47,7 @@ describe("Falling blocks", () => {
       );
     });
 
-    xit("at most one block may be falling at a time", () => {
+    it("at most one block may be falling at a time", () => {
       const before = board.toString();
       expect(() => board.drop(new Block("Y"))).to.throw("already falling");
       const after = board.toString();
