@@ -1,4 +1,5 @@
 import { Block } from "./Block.mjs";
+import { Tetromino } from "../src/Tetromino.mjs";
 
 export class Board {
   width;
