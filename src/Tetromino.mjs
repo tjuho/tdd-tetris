@@ -6,6 +6,14 @@ export class Tetromino {
             return ' T \nTTT'
         }
     }
+    static getLines(shape){
+        let res = []
+        if (shape === this.T_SHAPE){
+            res.push(' T ')
+            res.push('TTT')
+            return res
+        }
+    }
 
     static getShapeHeight(shape){
         if (shape === this.T_SHAPE){
