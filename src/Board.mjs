@@ -23,6 +23,19 @@ export class Board {
     this.matrix[0][middle] = block;
   }
 
+  tick() {
+    for (let r=this.height-1; r>-1; r--){
+      for (let c=0; c<this.width; c++){
+        let block = this.matrix[r][c];
+        if (block.notEmpty()) {
+          let temp = this.matrix[r+1][c]
+          this.matrix[r+1][c] = block
+          this.matrix[r][c] = temp
+        }
+      }
+    }
+  }
+
   toString() {
     let result = '';
     for (let r=0; r<this.height; r++){

@@ -8,4 +8,7 @@ export class Block {
   isEmpty() {
     return this.color === '.'
   }
+  notEmpty() {
+    return this.color !== '.'
+  }
 }
