@@ -8,19 +8,19 @@ export class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.clearBoard()
+    this.clearBoard();
   }
 
   clearBoard() {
-    this.matrix = []
+    this.matrix = [];
     for (let r=0; r<this.height; r++){
       this.matrix.push(Array(this.width).fill(new Block('.')));
     }
   }
 
   drop(block) {
-    middle = this.width/2
-    this.matrix[0][middle] = block
+    let middle = parseInt(this.width/2);
+    this.matrix[0][middle] = block;
   }
 
   toString() {

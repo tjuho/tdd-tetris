@@ -8,7 +8,7 @@ describe("Falling blocks", () => {
     board = new Board(3, 3);
   });
 
-  it("The board starts empty", () => {
+  xit("The board starts empty", () => {
     expect(board.toString()).to.equalShape(
       `...
        ...
@@ -22,7 +22,7 @@ describe("Falling blocks", () => {
       board.drop(new Block("X"));
     });
 
-    xit("it starts from the top middle", () => {
+    it("it starts from the top middle", () => {
       expect(board.toString()).to.equalShape(
         `.X.
          ...
