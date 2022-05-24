@@ -1,3 +1,5 @@
+import { Block } from "./Block.mjs";
+
 export class Board {
   width;
   height;
@@ -12,15 +14,20 @@ export class Board {
   clearBoard() {
     this.matrix = []
     for (let r=0; r<this.height; r++){
-      this.matrix.push(Array(this.width).fill(false))
+      this.matrix.push(Array(this.width).fill(new Block('.')));
     }
+  }
+
+  drop(block) {
+    middle = this.width/2
+    this.matrix[0][middle] = block
   }
 
   toString() {
     let result = ''
     for (let r=0; r<this.height; r++){
       for (let c=0; c<this.width; c++){
-        result += (this.matrix[r][c]) ? 'X':'.';
+        result += (this.matrix[r][c]).color;
       }
       result += '\n'
     }
