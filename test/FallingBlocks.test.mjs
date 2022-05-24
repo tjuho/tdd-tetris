@@ -8,7 +8,7 @@ describe("Falling blocks", () => {
     board = new Board(3, 3);
   });
 
-  xit("The board starts empty", () => {
+  it("The board starts empty", () => {
     expect(board.toString()).to.equalShape(
       `...
        ...
@@ -16,7 +16,6 @@ describe("Falling blocks", () => {
     );
   });
 
-  
   describe("When a block is dropped", () => {
     beforeEach(() => {
       board.drop(new Block("X"));
@@ -53,10 +52,20 @@ describe("Falling blocks", () => {
       const after = board.toString();
       expect(after).to.equal(before);
     });
+    it("it moves down one row per tick", () => {
+      board.tick();
+      board.tick();
+
+      expect(board.toString()).to.equalShape(
+        `...
+         ...
+         .X.`
+      );
+    });
   });
   
 
-  /*
+  
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
       board.drop(new Block("X"));
@@ -87,7 +96,7 @@ describe("Falling blocks", () => {
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
   });
-  */
+  
 
   /*
   describe("When a block lands on another block", () => {

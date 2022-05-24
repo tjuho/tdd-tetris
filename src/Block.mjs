@@ -1,5 +1,6 @@
 export class Block {
   color;
+  isFalling=true;
 
   constructor(color) {
     this.color = color;
