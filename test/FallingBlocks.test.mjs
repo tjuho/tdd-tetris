@@ -5,24 +5,25 @@ import { Block } from "../src/Block.mjs";
 describe("Falling blocks", () => {
   let board;
   beforeEach(() => {
-    board = new Board(3, 3);
+    board = new Board(3, 4);
   });
 
   it("The board starts empty", () => {
     expect(board.toString()).to.equalShape(
       `...
        ...
+       ...
        ...`
     );
   });
 
-  /*
+  
   describe("When a block is dropped", () => {
     beforeEach(() => {
       board.drop(new Block("X"));
     });
 
-    it("it starts from the top middle", () => {
+    xit("it starts from the top middle", () => {
       expect(board.toString()).to.equalShape(
         `.X.
          ...
@@ -47,7 +48,7 @@ describe("Falling blocks", () => {
       expect(after).to.equal(before);
     });
   });
-  */
+  
 
   /*
   describe("When a block reaches the bottom", () => {
