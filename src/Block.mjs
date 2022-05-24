@@ -1,15 +1,16 @@
 export class Block {
   color;
-  isFalling=true;
+  isFalling;
 
   constructor(color) {
     this.color = color;
+    this.isFalling = color !== '.';
   }
 
   isEmpty() {
-    return this.color === '.'
+    return this.color === '.';
   }
   notEmpty() {
-    return this.color !== '.'
+    return this.color !== '.';
   }
 }
