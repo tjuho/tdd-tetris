@@ -4,4 +4,8 @@ export class Block {
   constructor(color) {
     this.color = color;
   }
+
+  isEmpty() {
+    return this.color === '.'
+  }
 }

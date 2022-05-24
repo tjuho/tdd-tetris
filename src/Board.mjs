@@ -24,12 +24,12 @@ export class Board {
   }
 
   toString() {
-    let result = ''
+    let result = '';
     for (let r=0; r<this.height; r++){
       for (let c=0; c<this.width; c++){
         result += (this.matrix[r][c]).color;
       }
-      result += '\n'
+      result += '\n';
     }
     return result;
   }
