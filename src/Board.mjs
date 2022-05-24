@@ -21,8 +21,7 @@ export class Board {
   isBlockFalling() {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
-        let block = this.matrix[r][c];
-        if (block.notEmpty() && this.isEmpty(c,r+1)) {
+        if (!this.isEmpty(c,r) && this.isEmpty(c,r+1)) {
           return true;
         }
       }
