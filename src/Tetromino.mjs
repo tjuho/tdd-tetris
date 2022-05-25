@@ -1,32 +1,10 @@
 export class Tetromino {
     static T_SHAPE = 0;
 
-    static getShape(shape){
+    static getBlockCoordinates(shape){
         if (shape === this.T_SHAPE){
-            return ' T \nTTT'
+            return [(0,0),(-1,0), (0,1), (1,0)];
         }
     }
-    static getLines(shape){
-        let res = []
-        if (shape === this.T_SHAPE){
-            res.push(' T ')
-            res.push('TTT')
-            return res
-        }
-    }
-
-    static getShapeHeight(shape){
-        if (shape === this.T_SHAPE){
-            return 2
-        }
-
-    }
-
-    static getShapeMid(shape){
-        if (shape === this.T_SHAPE){
-            return 1
-        }
-
-    }
-
+    static
 }

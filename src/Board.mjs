@@ -45,6 +45,17 @@ export class Board {
     this.matrix[0][middle] = block;
   }
 
+  drop(shape) {
+    if (this.hasFalling()) {
+      throw "already falling";
+    }
+    outlook = Tetromino.getShape(shape);
+    height = Tetromino.getShapeHeight(shape);
+
+    let middle = parseInt(this.width/2);
+    this.matrix[0][middle] = block;
+  }
+
   tick() {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
