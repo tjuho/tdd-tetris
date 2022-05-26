@@ -18,16 +18,28 @@ export class Board {
   clearBoard() {
     this.matrix = [];
     for (let r=0; r<this.height; r++){
-      this.matrix.push(Array(this.width).fill(new Block('.')));
+      this.matrix.push(Array(this.width).fill('.'));
     }
   }
 
   fillBoard() {
-    for (let i=0; i<this.shapes.length; i++){
-      let shape = this.shapes[i];
-      let coordinates = this.calculateShapeCoordinates(shape);
+    let shapes = this.shapes;
+    if (this.fallingShape){
+      shapes.push(this.fallingShape);
+    }
+    this.fillBoardWithShapes(shapes);
+  }
+
+  fillBoardWithStaticTetrominos() {
+    this.fillBoardWithShapes(this.shapes);
+  }
+
+  fillBoardWithShapes(shapes){
+    for (let i=0; i<shapes.length; i++){
+      let shape = shapes[i];
+      let coordinates = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
       for (let j=0; j<coordinates.length; j++){
-        [x,y] = coordinates[j];
+        let [x,y] = coordinates[j];
         this.matrix[y][x] = shape['color'];
       }
     }
@@ -60,11 +72,12 @@ export class Board {
   }
 
   drop(tetromino) {
+    let some = tetromino.matrix[0];
     if (this.hasFalling()) {
       throw "already falling";
     }
-    topleftcornerx = parseInt((this.width - (tetromino['matrix'][0]).length)/2);
-    fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
+    let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
+    this.fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
   }
 
   tick() {
@@ -95,10 +108,10 @@ export class Board {
   }
 
   canFall(shape){
-    let coordinatesList = this.calculateShapeCoordinates(shape);
+    let coordinatesList = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
     for (let i=0; i<coordinatesList.length; i++){
-      x = coordinatesList[i][0];
-      y = coordinatesList[i][1];
+      let x = coordinatesList[i][0];
+      let y = coordinatesList[i][1];
       if (!this.isEmpty(x,y+1)){
         return false;
       }
@@ -113,11 +126,8 @@ export class Board {
     return this.matrix[y][x].color === '.';
   }
 
-  calculateShapeCoordinates(shape){
+  calculateMatrixCoordinates(mat, cx, cy){
     let coordinates = [];
-    let cx = shape['cx'];
-    let cy = shape['cy'];
-    let mat = shape['matrix'];
     for (let r=0; r<mat.length; r++){
       for (let c=0; c<mat.length; c++){
         if (mat[r][c] === 1){
@@ -129,10 +139,12 @@ export class Board {
   }
 
   toString() {
+    this.clearBoard();
+    this.fillBoard();
     let result = '';
     for (let r=0; r<this.height; r++){
       for (let c=0; c<this.width; c++){
-        result += (this.matrix[r][c]).color;
+        result += this.matrix[r][c];
       }
       result += '\n';
     }
