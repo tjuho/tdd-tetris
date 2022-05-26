@@ -6,5 +6,6 @@ export class Tetromino {
             return [(0,0),(-1,0), (0,1), (1,0)];
         }
     }
-    static
+
+    static T_SHAPE = {'color': 'T', 'matrix': [[0,1,0],[1,1,1],[0,0,0]]};
 }

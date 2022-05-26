@@ -49,9 +49,6 @@ export class Board {
     if (this.hasFalling()) {
       throw "already falling";
     }
-    outlook = Tetromino.getShape(shape);
-    height = Tetromino.getShapeHeight(shape);
-
     let middle = parseInt(this.width/2);
     this.matrix[0][middle] = block;
   }
@@ -70,6 +67,13 @@ export class Board {
           }
         }
       }
+    }
+  }
+
+  getShapeStartCoordinates(shape) {
+    x = parseInt(this.width/2)
+    if (shape === this.T_SHAPE){
+      return [(x,1),(x,0), (x-1,1), (x+1,1)];
     }
   }
 
