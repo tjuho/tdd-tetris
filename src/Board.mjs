@@ -48,15 +48,25 @@ export class Board {
     this.matrix[0][middle] = block;
   }
 
-  drop(shape) {
+  drop(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
     }
-    topleftcornerx = parseInt((this.width - (shape['matrix'][0]).length)/2);
-    fallingShape = {'cx': topleftcornerx, 'cy': 0, 'shape': shape}
+    topleftcornerx = parseInt((this.width - (tetromino['matrix'][0]).length)/2);
+    fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
   }
 
   tick() {
+    for (let i=0; i<this.shapes.length; i++){
+      let shape = this.shapes[i];
+      let coordinates = this.calculateShapeCoordinates(shape['matrix']);
+      for (let j=0; j<coordinates.length; j++){
+        [x,y] = coordinates[j];
+        this.matrix[y][x] = shape['color'];
+      }
+    }
+  }
+  tick1(){
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
         let block = this.matrix[r][c];
@@ -71,6 +81,21 @@ export class Board {
         }
       }
     }
+  }
+
+  calculateShapeCoordinates(shape){
+    let coordinates = [];
+    let cx = shape['cx'];
+    let cy = shape['cy'];
+    let mat = shape['matrix'];
+    for (let r=0; r<mat.length; r++){
+      for (let c=0; c<mat.length; c++){
+        if (mat[r][c] === 1){
+          coordinates.push([cx+c, cy+r]);
+        }
+      }
+    }
+    return coordinates;
   }
 
   getShapeStartCoordinates(shape) {
