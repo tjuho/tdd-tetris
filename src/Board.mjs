@@ -72,7 +72,6 @@ export class Board {
   }
 
   drop(tetromino) {
-    let some = tetromino.matrix[0];
     if (this.hasFalling()) {
       throw "already falling";
     }
@@ -84,7 +83,7 @@ export class Board {
     this.clearBoard();
     this.fillBoard();
     if (this.canFall(this.fallingShape)){
-      this.fallingShape['y'] +=1;
+      this.fallingShape.cy +=1;
     } else {
       this.shapes.push(this.fallingShape);
       this.fallingShape = null;
@@ -123,7 +122,9 @@ export class Board {
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return false
     }
-    return this.matrix[y][x].color === '.';
+    this.clearBoard()
+    this.fillBoard()
+    return this.matrix[y][x] === '.';
   }
 
   calculateMatrixCoordinates(mat, cx, cy){
