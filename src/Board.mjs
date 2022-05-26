@@ -22,6 +22,17 @@ export class Board {
     }
   }
 
+  fillBoard() {
+    for (let i=0; i<this.shapes.length; i++){
+      let shape = this.shapes[i];
+      let coordinates = this.calculateShapeCoordinates(shape);
+      for (let j=0; j<coordinates.length; j++){
+        [x,y] = coordinates[j];
+        this.matrix[y][x] = shape['color'];
+      }
+    }
+  }
+
   hasFalling() {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
@@ -33,12 +44,6 @@ export class Board {
     return false;
   }
 
-  isEmpty(c,r) {
-    if (c < 0 || c >= this.width || r < 0 || r >= this.height) {
-      return false
-    }
-    return this.matrix[r][c].color === '.';
-  }
 
   drop(block) {
     if (this.hasFalling()) {
@@ -57,13 +62,10 @@ export class Board {
   }
 
   tick() {
-    for (let i=0; i<this.shapes.length; i++){
-      let shape = this.shapes[i];
-      let coordinates = this.calculateShapeCoordinates(shape['matrix']);
-      for (let j=0; j<coordinates.length; j++){
-        [x,y] = coordinates[j];
-        this.matrix[y][x] = shape['color'];
-      }
+    this.clearBoard();
+    this.fillBoard();
+    if (fallingShape){
+
     }
   }
   tick1(){
@@ -83,6 +85,25 @@ export class Board {
     }
   }
 
+  canFall(shape){
+    let coordinatesList = this.calculateShapeCoordinates(shape);
+    for (let i=0; i<coordinatesList.length; i++){
+      x = coordinatesList[i][0];
+      y = coordinatesList[i][1];
+      if (!this.isEmpty(x,y+1)){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isEmpty(x,y) {
+    if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+      return false
+    }
+    return this.matrix[y][x].color === '.';
+  }
+
   calculateShapeCoordinates(shape){
     let coordinates = [];
     let cx = shape['cx'];
@@ -96,13 +117,6 @@ export class Board {
       }
     }
     return coordinates;
-  }
-
-  getShapeStartCoordinates(shape) {
-    x = parseInt(this.width/2)
-    if (shape === this.T_SHAPE){
-      return [(x,1),(x,0), (x-1,1), (x+1,1)];
-    }
   }
 
   toString() {
