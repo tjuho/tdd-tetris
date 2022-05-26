@@ -5,10 +5,13 @@ export class Board {
   width;
   height;
   matrix;
+  shapes;
+  fallingShape;
 
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.shapes = [];
     this.clearBoard();
   }
 
@@ -49,8 +52,8 @@ export class Board {
     if (this.hasFalling()) {
       throw "already falling";
     }
-    let middle = parseInt(this.width/2);
-    this.matrix[0][middle] = block;
+    topleftcornerx = parseInt((this.width - (shape['matrix'][0]).length)/2);
+    fallingShape = {'cx': topleftcornerx, 'cy': 0, 'shape': shape}
   }
 
   tick() {
