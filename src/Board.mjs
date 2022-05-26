@@ -33,7 +33,7 @@ export class Board {
     }
   }
 
-  hasFalling() {
+  hasFalling1() {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
         if ((this.matrix[r][c]).isFalling) {
@@ -44,8 +44,14 @@ export class Board {
     return false;
   }
 
+  hasFalling() {
+    if (this.fallingShape) {
+      return true;
+    } else { return false; }
+  }
 
-  drop(block) {
+
+  drop1(block) {
     if (this.hasFalling()) {
       throw "already falling";
     }
@@ -64,8 +70,11 @@ export class Board {
   tick() {
     this.clearBoard();
     this.fillBoard();
-    if (fallingShape){
-
+    if (this.canFall(this.fallingShape)){
+      this.fallingShape['y'] +=1;
+    } else {
+      this.shapes.push(this.fallingShape);
+      this.fallingShape = null;
     }
   }
   tick1(){
