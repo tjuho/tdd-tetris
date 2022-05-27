@@ -11,7 +11,6 @@ class Shape{
         this.size = rotations[0].length
     }
     rotateRight(){
-        count = rotations.length
         if (this.orientation - 1 === this.rotations.length){
             this.orientation = 0;
         } else {
@@ -19,7 +18,6 @@ class Shape{
         }
     }    
     rotateLeft(){
-        count = rotations.length
         if (this.orientation === 0){
             this.orientation = this.rotations.length - 1;
         } else {
@@ -34,8 +32,8 @@ class Shape{
         } else { return false; }
     }
     toString(){
-        res = '';
-        mat = this.rotations[this.orientation];
+        let res = '';
+        let mat = this.rotations[this.orientation];
         for (let r=0;r<this.size;r++){
             for (let c=0; c<this.size;c++){
                 if (mat[r][c] > 0){
@@ -44,6 +42,7 @@ class Shape{
                     res += '.';
                 }
             }
+            res += '\n'
         }
         return res;
     }
