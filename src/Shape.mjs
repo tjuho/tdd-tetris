@@ -4,11 +4,15 @@ class Shape{
     rotations 
     color
     size
-    constructor(color, rotations){
+    cx
+    cy 
+    constructor(color, rotations, cx){
         this.orientation = 0;
         this.color = color;
         this.rotations = rotations;
         this.size = rotations[0].length
+        this.cx = cx
+        this.cy = 0
     }
     rotateRight(){
         if (this.orientation - 1 === this.rotations.length){
@@ -31,6 +35,11 @@ class Shape{
             return mat[r][c] > 0;
         } else { return false; }
     }
+    
+    size(){
+        return this.rotations[0].length
+    }
+
     toString(){
         let res = '';
         let mat = this.rotations[this.orientation];

@@ -4,7 +4,7 @@ import { Tetromino } from "../src/Tetromino.mjs";
 export class Board {
   width;
   height;
-  matrix;
+  gameField;
   shapes;
   fallingShape;
 
@@ -16,9 +16,9 @@ export class Board {
   }
 
   clearBoard() {
-    this.matrix = [];
+    this.gameField = [];
     for (let r=0; r<this.height; r++){
-      this.matrix.push(Array(this.width).fill('.'));
+      this.gameField.push(Array(this.width).fill('.'));
     }
   }
 
@@ -40,7 +40,7 @@ export class Board {
       let coordinates = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
       for (let j=0; j<coordinates.length; j++){
         let [x,y] = coordinates[j];
-        this.matrix[y][x] = shape['color'];
+        this.gameField[y][x] = shape['color'];
       }
     }
   }
@@ -48,7 +48,7 @@ export class Board {
   hasFalling1() {
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
-        if ((this.matrix[r][c]).isFalling) {
+        if ((this.gameField[r][c]).isFalling) {
             return true;
         }
       }
@@ -68,7 +68,7 @@ export class Board {
       throw "already falling";
     }
     let middle = parseInt(this.width/2);
-    this.matrix[0][middle] = block;
+    this.gameField[0][middle] = block;
   }
 
   drop(tetromino) {
@@ -92,12 +92,12 @@ export class Board {
   tick1(){
     for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
-        let block = this.matrix[r][c];
+        let block = this.gameField[r][c];
         if (block.isFalling){
           if (!this.isEmpty(c,r) && this.isEmpty(c,r+1)) {
-            let temp = this.matrix[r+1][c]
-            this.matrix[r+1][c] = block;
-            this.matrix[r][c] = temp;
+            let temp = this.gameField[r+1][c]
+            this.gameField[r+1][c] = block;
+            this.gameField[r][c] = temp;
           } else {
             block.isFalling = false;
           }
@@ -124,7 +124,7 @@ export class Board {
     }
     this.clearBoard()
     this.fillBoard()
-    return this.matrix[y][x] === '.';
+    return this.gameField[y][x] === '.';
   }
 
   calculateMatrixCoordinates(mat, cx, cy){
@@ -145,7 +145,7 @@ export class Board {
     let result = '';
     for (let r=0; r<this.height; r++){
       for (let c=0; c<this.width; c++){
-        result += this.matrix[r][c];
+        result += this.gameField[r][c];
       }
       result += '\n';
     }
