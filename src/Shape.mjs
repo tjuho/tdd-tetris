@@ -58,19 +58,24 @@ class Shape{
 }
 
 export class TShape extends Shape{
-    constructor(color){
-        super(color, [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]]);
+    constructor(color, cx){
+        super(color, 
+            [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]], 
+            cx);
     }
 }
 export class IShape extends Shape{
-    constructor(color){
-        super(color, [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]]);
+    constructor(color, cx){
+        super(color, 
+            [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]], 
+            cx
+            );
     }
 }
 
 export class SingleShape extends Shape{
-    constructor(color){
-        super(color, [[[1]]]);
+    constructor(color, cx){
+        super(color, [[[1]]], cx);
     }
 }
 

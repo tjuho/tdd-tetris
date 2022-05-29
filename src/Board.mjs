@@ -71,12 +71,29 @@ export class Board {
     this.gameField[0][middle] = block;
   }
 
-  drop(tetromino) {
+  drop2(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
     }
     let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
     this.fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
+  }
+
+  drop(tetromino) {
+    if (this.hasFalling()) {
+      throw "already falling";
+    }
+    let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
+    switch ( tetromino ){
+      case Tetromino.T_SHAPE:
+        this.fallingShape = TShape('T', topleftcornerx);
+      case Tetromino.I_SHAPE:
+        this.fallingShape = IShape('I', topleftcornerx);
+      case Tetromino.X_SHAPE:
+        this.fallingShape = XShape('X', topleftcornerx);
+      case Tetromino.Y_SHAPE:
+        this.fallingShape = YShape('Y', topleftcornerx);
+    }
   }
 
   tick() {
