@@ -31,11 +31,13 @@ export class Board {
   }
 
   tick() {
-    if (this.canFall(this.fallingShape)){
-      this.fallingShape.cy +=1;
-    } else {
-      this.shapes.push(this.fallingShape);
-      this.fallingShape = undefined;
+    if (this.fallingShape){
+      if (this.canFall(this.fallingShape)){
+        this.fallingShape.cy +=1;
+      } else {
+        this.shapes.push(this.fallingShape);
+        this.fallingShape = undefined;
+      }
     }
   }
   canFall(shape){

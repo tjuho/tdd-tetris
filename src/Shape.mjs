@@ -71,33 +71,6 @@ export class Shape{
         return positions;
     }
 
-    getLowestBlocks(){
-        let lowest = [];
-        var lowestrowspercolumn = {};
-        let positions = this.getBlockPositions();
-        for (let i = 0; i < positions.length; i++){
-            let pos = positions[i];
-            let tx = parseInt(pos[0]);
-            let ty = parseInt(pos[1]);
-            if (tx in lowestrowspercolumn){
-                if (lowestrowspercolumn[tx] > ty){
-                    lowestrowspercolumn[tx] = ty;
-                }
-            } else {
-                lowestrowspercolumn[tx] = ty;
-            }
-          }
-          console.log('lowest dic',lowestrowspercolumn)
-          for (let key in Object.keys(lowestrowspercolumn)){
-            console.log(key + ":" + lowestrowspercolumn[key])
-          }
-        let columns = Object.keys(lowestrowspercolumn);
-        for (let col in columns){
-            lowest.push([col, lowestrowspercolumn.col]);
-        }
-        return lowest;
-    }
-
     getLowestBlockPositions(){
         let result = []
         let mat = this.rotations[this.orientation];
