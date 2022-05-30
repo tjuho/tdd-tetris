@@ -73,7 +73,7 @@ export class Shape{
 
     getLowestBlocks(){
         let lowest = [];
-        let lowestrowspercolumn = {};
+        var lowestrowspercolumn = {};
         let positions = this.getBlockPositions();
         for (let i = 0; i < positions.length; i++){
             let pos = positions[i];
@@ -87,12 +87,33 @@ export class Shape{
                 lowestrowspercolumn[tx] = ty;
             }
           }
+          console.log('lowest dic',lowestrowspercolumn)
+          for (let key in Object.keys(lowestrowspercolumn)){
+            console.log(key + ":" + lowestrowspercolumn[key])
+          }
         let columns = Object.keys(lowestrowspercolumn);
         for (let col in columns){
-            lowest.push([col, lowestrowspercolumn[col]]);
+            lowest.push([col, lowestrowspercolumn.col]);
         }
         return lowest;
     }
+
+    getLowestBlockPositions(){
+        let result = []
+        let mat = this.rotations[this.orientation];
+        for (let c = 0; c < this.size; c++){
+            let lowesty = -1;
+            for (let r = 0; r < this.size; r++){
+                if (mat[r][c] > 0){
+                    lowesty = r;
+                }
+            }
+            if (lowesty > -1){
+                result.push([this.cx+c, this.cy+lowesty]);
+            }
+        }
+        return result;
+    }   
 }
 
 export class TShape extends Shape{

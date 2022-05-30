@@ -33,18 +33,26 @@ export class Board {
   tick() {
     if (this.canFall(this.fallingShape)){
       this.fallingShape.cy +=1;
+      console.log('can fall')
     } else {
       this.shapes.push(this.fallingShape);
       this.fallingShape = undefined;
+      console.log('cant fall')
     }
   }
   canFall(shape){
-    let lowests = shape.getLowestBlocks();
-    for (let low in lowests){
-      let x = low[0]
-      let y = low[1]
+    console.log(shape);
+    let positions = shape.getLowestBlockPositions();
+    console.log(positions);
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      console.log('pos',pos);
+      let x = pos[0];
+      let y = pos[1];
+      console.log(x)
+      console.log(y)
       if (!this.isEmpty(x,y+1)){
-        return false
+        return false;
       }
     }
     return true;

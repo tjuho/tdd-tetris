@@ -64,7 +64,6 @@ describe("Falling blocks", () => {
     });
   });
   
-  /*
 
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
@@ -73,7 +72,7 @@ describe("Falling blocks", () => {
       board.tick();
     });
 
-    it("it is still moving on the last row", () => {
+    xit("it is still moving on the last row", () => {
       expect(board.toString()).to.equalShape(
         `...
          ...
@@ -108,7 +107,7 @@ describe("Falling blocks", () => {
       board.tick();
     });
 
-    it("it is still moving on the row above the other block", () => {
+    xit("it is still moving on the row above the other block", () => {
       expect(board.toString()).to.equalShape(
         `...
          .Y.
@@ -120,7 +119,7 @@ describe("Falling blocks", () => {
       ).to.be.true;
     });
 
-    it("it stops when it hits the other block", () => {
+    xit("it stops when it hits the other block", () => {
       board.tick();
 
       expect(board.toString()).to.equalShape(
@@ -130,6 +129,5 @@ describe("Falling blocks", () => {
       );
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
-  });
-*/  
+  }); 
 });
