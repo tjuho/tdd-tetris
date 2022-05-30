@@ -1,17 +1,16 @@
 
-class Shape{
+export class Shape{
     orientation
     rotations 
     color
     size
     cx
     cy 
-    constructor(color, rotations, cx){
+    constructor(color, rotations){
         this.orientation = 0;
         this.color = color;
         this.rotations = rotations;
         this.size = rotations[0].length
-        this.cx = cx
         this.cy = 0
     }
     rotateRight(){
@@ -28,7 +27,10 @@ class Shape{
             this.orientation -= 1;
         }
     }    
-
+    setUpperLeftPosition(cx,cy){
+        this.cx = cx;
+        this.cy = cy;
+    }
     hasBlock(r,c){
         mat = this.rotations[this.orientation];
         if (r>=0 && r < size && c >= 0 && c < size){
@@ -55,27 +57,39 @@ class Shape{
         }
         return res;
     }
+
+    getBlockPositions(){
+        let positions = [];
+        let matrix = this.rotations[this.orientation];
+        for (let r = 0; r < this.size; r++){
+            for (let c = 0; c < this.size; c++){
+                if (matrix[r][c] > 0){
+                    positions.push([this.cx+c,this.cy+r]);
+                }
+            }
+        }
+        return positions;
+    }
 }
 
 export class TShape extends Shape{
-    constructor(color, cx){
+    constructor(color){
         super(color, 
             [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]], 
-            cx);
+            );
     }
 }
 export class IShape extends Shape{
-    constructor(color, cx){
+    constructor(color){
         super(color, 
             [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]], 
-            cx
             );
     }
 }
 
 export class SingleShape extends Shape{
-    constructor(color, cx){
-        super(color, [[[1]]], cx);
+    constructor(color){
+        super(color, [[[1]]]);
     }
 }
 

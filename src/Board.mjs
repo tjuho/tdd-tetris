@@ -1,59 +1,20 @@
-import { Block } from "./Block.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
-
+import { SingleShape, IShape, TShape, Shape } from "./Shape.mjs";
+import { ShapeBuilder } from "./ShapeBuilder.mjs";
 export class Board {
   width;
   height;
   gameField;
   shapes;
   fallingShape;
+  shapeBuilder;
 
   constructor(width, height) {
     this.width = width;
     this.height = height;
     this.shapes = [];
-    this.clearBoard();
-  }
-
-  clearBoard() {
     this.gameField = [];
-    for (let r=0; r<this.height; r++){
-      this.gameField.push(Array(this.width).fill('.'));
-    }
-  }
-
-  fillBoard() {
-    let shapes = this.shapes;
-    if (this.fallingShape){
-      shapes.push(this.fallingShape);
-    }
-    this.fillBoardWithShapes(shapes);
-  }
-
-  fillBoardWithStaticTetrominos() {
-    this.fillBoardWithShapes(this.shapes);
-  }
-
-  fillBoardWithShapes(shapes){
-    for (let i=0; i<shapes.length; i++){
-      let shape = shapes[i];
-      let coordinates = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
-      for (let j=0; j<coordinates.length; j++){
-        let [x,y] = coordinates[j];
-        this.gameField[y][x] = shape['color'];
-      }
-    }
-  }
-
-  hasFalling1() {
-    for (let r=this.height-1; r>-1; r--){
-      for (let c=0; c<this.width; c++){
-        if ((this.gameField[r][c]).isFalling) {
-            return true;
-        }
-      }
-    }
-    return false;
+    this.shapeBuilder = new ShapeBuilder(width);
   }
 
   hasFalling() {
@@ -62,38 +23,11 @@ export class Board {
     } else { return false; }
   }
 
-
-  drop1(block) {
-    if (this.hasFalling()) {
-      throw "already falling";
-    }
-    let middle = parseInt(this.width/2);
-    this.gameField[0][middle] = block;
-  }
-
-  drop2(tetromino) {
-    if (this.hasFalling()) {
-      throw "already falling";
-    }
-    let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
-    this.fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
-  }
-
   drop(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
     }
-    let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
-    switch ( tetromino ){
-      case Tetromino.T_SHAPE:
-        this.fallingShape = TShape('T', topleftcornerx);
-      case Tetromino.I_SHAPE:
-        this.fallingShape = IShape('I', topleftcornerx);
-      case Tetromino.X_SHAPE:
-        this.fallingShape = XShape('X', topleftcornerx);
-      case Tetromino.Y_SHAPE:
-        this.fallingShape = YShape('Y', topleftcornerx);
-    }
+    this.fallingShape = this.shapeBuilder.createShape(tetromino, 'X')
   }
 
   tick() {
@@ -106,23 +40,6 @@ export class Board {
       this.fallingShape = null;
     }
   }
-  tick1(){
-    for (let r=this.height-1; r>-1; r--){
-      for (let c=0; c<this.width; c++){
-        let block = this.gameField[r][c];
-        if (block.isFalling){
-          if (!this.isEmpty(c,r) && this.isEmpty(c,r+1)) {
-            let temp = this.gameField[r+1][c]
-            this.gameField[r+1][c] = block;
-            this.gameField[r][c] = temp;
-          } else {
-            block.isFalling = false;
-          }
-        }
-      }
-    }
-  }
-
   canFall(shape){
     let coordinatesList = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
     for (let i=0; i<coordinatesList.length; i++){
@@ -144,6 +61,106 @@ export class Board {
     return this.gameField[y][x] === '.';
   }
 
+  toString() {
+    let str = '';
+    for (let r=0; r<this.height; r++){
+      for (let c=0; c<this.width; c++){
+        str += '.';
+      }
+      str += '\n';
+    }
+    let shapes = this.shapes;
+    if (this.fallingShape){
+      shapes.push(this.fallingShape);
+    }
+    let width = this.width;
+    shapes.forEach(function(shape) {
+      let positions = shape.getBlockPositions();
+      console.log('positions',positions)
+      for (let i = 0; i < positions.length; i++){
+        let pos = positions[i];
+        console.log('posss', pos )
+        let x = parseInt(pos[0]);
+        let y = parseInt(pos[1]);
+        console.log(x)
+        console.log(y)
+        console.log(width)
+        let j = x + y * (width+1);
+        str = str.substring(0, j) + shape.color + str.substring(j + 1);
+      }
+    });
+    return str;
+  }
+
+/*
+  clearBoard() {
+    this.gameField = [];
+    for (let r=0; r<this.height; r++){
+      for (let c=0; c<this.width; c++){
+        this.gameField += '.'
+      }
+      this.gameField += '\n'
+    }
+  }
+
+  fillBoard() {
+    let shapes = this.shapes;
+    if (this.fallingShape){
+      shapes.push(this.fallingShape);
+    }
+    this.fillBoardWithShapes(shapes);
+  }
+
+  fillBoardWithShapes1(shapes){
+    for (let i=0; i<shapes.length; i++){
+      let shape = shapes[i];
+      let coordinates = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
+      for (let j=0; j<coordinates.length; j++){
+        let [x,y] = coordinates[j];
+        this.gameField[y][x] = shape.color;
+      }
+    }
+  }
+
+  fillBoardWithShapes(shapes){
+    for (let i = 0; i < shapes.length; i++){
+      let shape = shapes[i];
+      let positions = shape.getBlockPositions();
+      for (let pos in positions){
+        let x = pos[0];
+        let y = pos[1];
+        this.gameField[y][x] = shape.color;
+      }
+    }
+  }
+
+  hasFalling1() {
+    for (let r=this.height-1; r>-1; r--){
+      for (let c=0; c<this.width; c++){
+        if ((this.gameField[r][c]).isFalling) {
+            return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  drop1(block) {
+    if (this.hasFalling()) {
+      throw "already falling";
+    }
+    let middle = parseInt(this.width/2);
+    this.gameField[0][middle] = block;
+  }
+
+  drop2(tetromino) {
+    if (this.hasFalling()) {
+      throw "already falling";
+    }
+    let topleftcornerx = parseInt((this.width - (tetromino.matrix[0]).length)/2);
+    this.fallingShape = {'cx': topleftcornerx, 'cy': 0, 'matrix': tetromino['matrix'], 'color': tetromino['color']};
+  }
+
   calculateMatrixCoordinates(mat, cx, cy){
     let coordinates = [];
     for (let r=0; r<mat.length; r++){
@@ -155,17 +172,23 @@ export class Board {
     }
     return coordinates;
   }
-
-  toString() {
-    this.clearBoard();
-    this.fillBoard();
-    let result = '';
-    for (let r=0; r<this.height; r++){
+  tick1(){
+    for (let r=this.height-1; r>-1; r--){
       for (let c=0; c<this.width; c++){
-        result += this.gameField[r][c];
+        let block = this.gameField[r][c];
+        if (block.isFalling){
+          if (!this.isEmpty(c,r) && this.isEmpty(c,r+1)) {
+            let temp = this.gameField[r+1][c]
+            this.gameField[r+1][c] = block;
+            this.gameField[r][c] = temp;
+          } else {
+            block.isFalling = false;
+          }
+        }
       }
-      result += '\n';
     }
-    return result;
   }
+
+
+*/
 }
