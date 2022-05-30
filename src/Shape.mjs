@@ -14,7 +14,7 @@ export class Shape{
         this.cy = 0
     }
     rotateRight(){
-        if (this.orientation - 1 === this.rotations.length){
+        if (this.orientation === this.rotations.length - 1){
             this.orientation = 0;
         } else {
             this.orientation += 1;
@@ -92,14 +92,21 @@ export class Shape{
 export class TShape extends Shape{
     constructor(color){
         super(color, 
-            [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]], 
+            [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]]
             );
     }
 }
 export class IShape extends Shape{
     constructor(color){
         super(color, 
-            [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]], 
+            [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]]
+            );
+    }
+}
+export class OShape extends Shape{
+    constructor(color){
+        super(color, 
+            [[[1,1],[1,1]]]
             );
     }
 }

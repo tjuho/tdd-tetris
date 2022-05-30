@@ -3,4 +3,5 @@ export class Tetromino {
     static I_SHAPE = 1;
     static X_SHAPE = 2;
     static Y_SHAPE = 3;
+    static O_SHAPE = 3;
 }
