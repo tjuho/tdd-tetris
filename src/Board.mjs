@@ -29,6 +29,20 @@ export class Board {
     }
     this.fallingShape = this.shapeBuilder.createShape(tetromino, 'X');
   }
+  moveRight(){
+    if (this.fallingShape){
+      if (this.canMoveRight(this.fallingShape)){
+        this.fallingShape.cx+=1;
+      }
+    }
+  }
+  moveLeft(){
+    if (this.fallingShape){
+      if (this.canMoveLeft(this.fallingShape)){
+        this.fallingShape.cx-=1;
+      }
+    }
+  }
 
   tick() {
     if (this.fallingShape){
@@ -47,6 +61,31 @@ export class Board {
       let x = pos[0];
       let y = pos[1];
       if (!this.isEmpty(x,y+1)){
+        return false;
+      }
+    }
+    return true;
+  }
+  canMoveRight(shape){
+    let positions = shape.getRightMostBlockPositions();
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this.isEmpty(x+1,y)){
+        return false;
+      }
+    }
+    return true;
+  }
+  canMoveLeft(shape){
+    let positions = shape.getLeftMostBlockPositions();
+    console.log('canmoveleft', positions)
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this.isEmpty(x-1,y)){
         return false;
       }
     }
@@ -100,4 +139,6 @@ export class Board {
     });
     return str;
   }
+
+
 }

@@ -10,8 +10,9 @@ export class Shape{
         this.orientation = 0;
         this.color = color;
         this.rotations = rotations;
-        this.size = rotations[0].length
-        this.cy = 0
+        this.size = rotations[0].length;
+        this.cy = 0;
+        this.cx = 0;
     }
     rotateRight(){
         if (this.orientation === this.rotations.length - 1){
@@ -87,6 +88,40 @@ export class Shape{
         }
         return result;
     }   
+
+    getRightMostBlockPositions(){
+        let result = []
+        let mat = this.rotations[this.orientation];
+        for (let r = 0; r < this.size; r++){
+            let rightmostx = -1;
+            for (let c = 0; c < this.size; c++){
+                if (mat[r][c] > 0){
+                    rightmostx = c;
+                }
+            }
+            if (rightmostx > -1){
+                result.push([this.cx+rightmostx, this.cy+r]);
+            }
+        }
+        return result;
+    }
+
+    getLeftMostBlockPositions(){
+        let result = []
+        let mat = this.rotations[this.orientation];
+        for (let r = 0; r < this.size; r++){
+            let leftmostx = -1;
+            for (let c = this.size - 1; c >= 0; c--){
+                if (mat[r][c] > 0){
+                    leftmostx = c;
+                }
+            }
+            if (leftmostx > -1){
+                result.push([this.cx+leftmostx, this.cy+r]);
+            }
+        }
+        return result;
+    }
 }
 
 export class TShape extends Shape{
