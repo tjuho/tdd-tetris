@@ -27,38 +27,49 @@ export class Board {
     if (this.hasFalling()) {
       throw "already falling";
     }
-    this.fallingShape = this.shapeBuilder.createShape(tetromino, 'X')
+    this.fallingShape = this.shapeBuilder.createShape(tetromino, 'X');
   }
 
   tick() {
-    this.clearBoard();
-    this.fillBoard();
     if (this.canFall(this.fallingShape)){
       this.fallingShape.cy +=1;
     } else {
       this.shapes.push(this.fallingShape);
-      this.fallingShape = null;
+      this.fallingShape = undefined;
     }
   }
   canFall(shape){
-    let coordinatesList = this.calculateMatrixCoordinates(shape.matrix, shape.cx, shape.cy);
-    for (let i=0; i<coordinatesList.length; i++){
-      let x = coordinatesList[i][0];
-      let y = coordinatesList[i][1];
+    let lowests = shape.getLowestBlocks();
+    for (let low in lowests){
+      let x = low[0]
+      let y = low[1]
       if (!this.isEmpty(x,y+1)){
-        return false;
+        return false
       }
     }
     return true;
   }
 
   isEmpty(x,y) {
+    let isempty = true;
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return false
     }
-    this.clearBoard()
-    this.fillBoard()
-    return this.gameField[y][x] === '.';
+    let shapes = this.shapes;
+    shapes.push(this.fallingShape);
+    shapes.forEach(function(shape) {
+      let positions = shape.getBlockPositions();
+      for (let i = 0; i < positions.length; i++){
+        let pos = positions[i];
+        let tx = parseInt(pos[0]);
+        let ty = parseInt(pos[1]);
+        if (x === tx && y === ty){
+          isempty = false;
+          break;
+        }
+      }
+    });
+    return isempty;
   }
 
   toString() {
@@ -76,15 +87,10 @@ export class Board {
     let width = this.width;
     shapes.forEach(function(shape) {
       let positions = shape.getBlockPositions();
-      console.log('positions',positions)
       for (let i = 0; i < positions.length; i++){
         let pos = positions[i];
-        console.log('posss', pos )
         let x = parseInt(pos[0]);
         let y = parseInt(pos[1]);
-        console.log(x)
-        console.log(y)
-        console.log(width)
         let j = x + y * (width+1);
         str = str.substring(0, j) + shape.color + str.substring(j + 1);
       }
