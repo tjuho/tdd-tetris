@@ -15,13 +15,13 @@ describe("Falling and sideways moving tetrominoes", () => {
       board.drop(Tetromino.T_SHAPE);
     });
     
-    it("check if tetromino can move left", () => {
+    xit("check if tetromino can move left", () => {
         expect(board.canMoveLeft(board.fallingShape)).to.be.true;
     });
-    it("check if tetromino can move right", () => {
+    xit("check if tetromino can move right", () => {
         expect(board.canMoveRight(board.fallingShape)).to.be.true;
     });
-    it("start from the top middle", () => {
+    xit("start from the top middle", () => {
       expect(board.toString()).to.equalShape(
         `....T.....
          ...TTT....
@@ -32,7 +32,7 @@ describe("Falling and sideways moving tetrominoes", () => {
       );
     });
   
-    it("move tetromino right", () => {
+    xit("move tetromino right", () => {
         board.moveRight();
         expect(board.toString()).to.equalShape(
           `.....T....
@@ -43,7 +43,7 @@ describe("Falling and sideways moving tetrominoes", () => {
            ..........`
         );
     });  
-    it("move tetromino left", () => {
+    xit("move tetromino left", () => {
     board.moveLeft();
     expect(board.toString()).to.equalShape(
         `   ...T......
@@ -54,7 +54,7 @@ describe("Falling and sideways moving tetrominoes", () => {
             ..........`
         );
     });  
-    it("move tetromino all the way left so that it hits the boundaries", () => {
+    xit("move tetromino all the way left so that it hits the boundaries", () => {
     board.moveLeft();
     board.moveLeft();
     board.moveLeft();
@@ -69,7 +69,10 @@ describe("Falling and sideways moving tetrominoes", () => {
             ..........`
         );
     });  
-    it("move tetromino right so that it hits the boundaries", () => {
+    xit("move tetromino right so that it hits the boundaries", () => {
+    board.moveRight();
+    board.moveRight();
+    board.moveRight();
     board.moveRight();
     board.moveRight();
     board.moveRight();
@@ -103,6 +106,7 @@ describe("Falling and sideways moving tetrominoes", () => {
     });
   });
 */
+/*
 describe("Falling, sideways moving and rotating tetrominoes", () => {
     let board;
     beforeEach(() => {
@@ -170,3 +174,4 @@ describe("Falling, sideways moving and rotating tetrominoes", () => {
         expect(board.canRotateLeft(board.fallingShape)).to.be.false;
     });
   });
+  */

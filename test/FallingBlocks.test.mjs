@@ -64,12 +64,12 @@ describe("Falling blocks", () => {
     });
   });
   
-
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
       board.drop(Tetromino.X_SHAPE);
       board.tick();
       board.tick();
+
     });
 
     it("it is still moving on the last row", () => {
@@ -96,7 +96,6 @@ describe("Falling blocks", () => {
     });
   });
 
-  
   describe("When a block lands on another block", () => {
     beforeEach(() => {
       board.drop(Tetromino.X_SHAPE);
@@ -130,5 +129,4 @@ describe("Falling blocks", () => {
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
   }); 
-});
-*/
+});*/

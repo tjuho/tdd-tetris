@@ -7,7 +7,7 @@ function fallToBottom(board) {
     board.tick();
   }
 }
-/*
+
 describe("Falling tetrominoes", () => {
   let board;
   beforeEach(() => {
@@ -82,4 +82,3 @@ describe("Falling tetrominoes", () => {
     expect(board.hasFalling()).to.be.false;
   });
 });
-*/
