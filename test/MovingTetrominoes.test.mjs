@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { TShape, IShape, OShape } from "../src/Shape.mjs";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 

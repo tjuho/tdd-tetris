@@ -23,6 +23,7 @@ export class Board {
     } else { return false; }
   }
 
+
   drop(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
@@ -65,9 +66,61 @@ export class Board {
       } else {
         this.shapes.push(this.fallingShape);
         this.fallingShape = undefined;
+        this.handleFullRows();
       }
     }
   }
+
+  handleFullRows(){
+    let rowIds = this.fullRowIndexes();
+    if (rowIds.length > 0){
+      for (let j = 0; j < rowIds.length; j++){
+        let y = rowIds[j];
+        this.removeRow(y);
+      }
+      let foundfallingshape = true;
+      while (foundfallingshape){
+        foundfallingshape = false;
+        this.shapes.forEach(this.fallShape);
+      }
+    }
+  }
+
+  fallShape(shape){
+    console.log('shape', shape)
+    while (this.canFall(shape)){
+      foundfallingshape = true;
+      shape.cy += 1;
+    }
+
+  }
+
+  fullRowIndexes(){
+    let fullrowindexes = []
+    let str = this.toString();
+    let rows = str.split('\n');
+    for (let r = 0; r < this.height; r++){
+      let row = rows[r];
+      let isfull = true
+      for (let char of row){
+        if (char ==='.'){
+          isfull = false;
+          break;
+        }
+      }
+      if (isfull){
+        fullrowindexes.push(r);
+      }
+    }
+    return fullrowindexes;
+  }
+
+  removeRow(idx){
+    this.shapes.forEach(function(shape) {
+      shape.removeRow(idx);
+    });
+  }
+
   canFall(shape){
     let positions = shape.getLowestBlockPositions();
     for (let i = 0; i < positions.length; i++){
@@ -136,6 +189,7 @@ export class Board {
     return true;
   }
 
+
   _isEmpty(x,y,shapes){
     let isempty = true;
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
@@ -191,6 +245,4 @@ export class Board {
     });
     return str;
   }
-
-
 }

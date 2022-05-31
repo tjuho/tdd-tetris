@@ -33,7 +33,7 @@ export class Shape{
         this.cy = cy;
     }
     hasBlock(r,c){
-        mat = this.rotations[this.orientation];
+        let mat = this.rotations[this.orientation];
         if (r>=0 && r < size && c >= 0 && c < size){
             return mat[r][c] > 0;
         } else { return false; }
@@ -122,6 +122,13 @@ export class Shape{
         }
         return result;
     }
+    removeRow(rowIndex){
+        if (rowIndex >= this.cy && rowIndex < this.cy + this.size){
+            let shapeRowIndex = rowIndex - this.cy;
+            let mat = this.rotations[this.orientation];
+            mat[shapeRowIndex] = Array(this.size).fill(0);
+        }
+    }
 }
 
 export class TShape extends Shape{
@@ -152,3 +159,15 @@ export class SingleShape extends Shape{
     }
 }
 
+export class Type {
+    static T_SHAPE = {rotations: [[[0,1,0],[2,3,4],[0,0,0]],[[0,2,0],[0,3,1],[0,4,0]],[[0,0,0],[4,3,2],[0,1,0]],[[0,4,0],[1,3,0],[0,2,0]]],
+                      orientation: 0,
+                    color: 'T',
+                    cornerx: 0,
+                    cornery: 0
+                 };
+    static I_SHAPE = 1;
+    static X_SHAPE = 2;
+    static Y_SHAPE = 3;
+    static O_SHAPE = 3;
+}
