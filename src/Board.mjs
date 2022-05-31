@@ -43,6 +43,20 @@ export class Board {
       }
     }
   }
+  rotateRight(){
+    if (this.fallingShape){
+      if (this.canRotateRight(this.fallingShape)){
+        this.fallingShape.rotateRight();
+      }
+    }
+  }
+  rotateLeft(){
+    if (this.fallingShape){
+      if (this.canRotateLeft(this.fallingShape)){
+        this.fallingShape.rotateLeft();
+      }
+    }
+  }
 
   tick() {
     if (this.fallingShape){
@@ -79,12 +93,43 @@ export class Board {
     return true;
   }
   canMoveLeft(shape){
+    shape.rotate
     let positions = shape.getLeftMostBlockPositions();
     for (let i = 0; i < positions.length; i++){
       let pos = positions[i];
       let x = pos[0];
       let y = pos[1];
       if (!this.isEmpty(x-1,y)){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  canRotateRight(shape){
+    shape.rotateRight();
+    let positions = shape.getBlockPositions();
+    shape.rotateLeft();
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this.isEmptyWithoutFallingShape(x,y)){
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  canRotateLeft(shape){
+    shape.rotateLeft();
+    let positions = shape.getBlockPositions();
+    shape.rotateRight();
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this.isEmptyWithoutFallingShape(x,y)){
         return false;
       }
     }

@@ -131,7 +131,7 @@ describe("Falling, sideways moving and rotating tetrominoes", () => {
     });
 
     it("rotate tetromino right/clockwise", () => {
-        board.moveRight();
+        board.rotateRight();
         expect(board.toString()).to.equalShape(
            `....T.....
             ....TT....
@@ -142,7 +142,7 @@ describe("Falling, sideways moving and rotating tetrominoes", () => {
         );
     });  
     it("rotate tetromino left/counterclockwise", () => {
-    board.moveLeft();
+    board.rotateLeft();
     expect(board.toString()).to.equalShape(
         `....T.....
          ...TT.....
@@ -153,20 +153,21 @@ describe("Falling, sideways moving and rotating tetrominoes", () => {
         );
     });  
 
-    it("stop when they land on another block with one sidestep", () => {
-      fallToBottom(board);
-      board.drop(Tetromino.T_SHAPE);
-      board.moveRight();
-      board.moveRight();
-      fallToBottom(board);
-  
-      expect(board.toString()).to.equalShape(
-        `..........
-         ..........
-         ..........
-         ......T...
-         ....TTTT..
-         ...TTT....`
+    it("try to rotate when T shape is back against the wall", () => {
+        board.rotateLeft();
+        board.moveRight();
+        board.moveRight();
+        board.moveRight();
+        board.moveRight();
+        board.moveRight();
+        expect(board.toString()).to.equalShape(
+           `.........T
+            ........TT
+            .........T
+            ..........
+            ..........
+            ..........`
       );
+        expect(board.canRotateLeft(board.fallingShape)).to.be.false;
     });
   });
