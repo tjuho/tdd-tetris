@@ -80,7 +80,6 @@ export class Board {
   }
   canMoveLeft(shape){
     let positions = shape.getLeftMostBlockPositions();
-    console.log('canmoveleft', positions)
     for (let i = 0; i < positions.length; i++){
       let pos = positions[i];
       let x = pos[0];

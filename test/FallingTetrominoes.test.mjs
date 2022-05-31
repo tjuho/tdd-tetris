@@ -7,7 +7,7 @@ function fallToBottom(board) {
     board.tick();
   }
 }
-/*
+
 describe("Falling tetrominoes", () => {
   let board;
   beforeEach(() => {
@@ -41,6 +41,23 @@ describe("Falling tetrominoes", () => {
     );
   });
 
+  it("the piece is still falling/movable just when it is in the last row", () => {
+    board.drop(Tetromino.T_SHAPE);
+    board.tick();
+    board.tick();
+    board.tick();
+    board.tick();
+
+    expect(board.hasFalling()).to.be.true;
+  });
+
+  it("no falling piece when it hits the ground", () => {
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
+
+    expect(board.hasFalling()).to.be.false;
+  });
+
   it("stop when they land on another block", () => {
     board.drop(Tetromino.T_SHAPE);
     fallToBottom(board);
@@ -57,4 +74,3 @@ describe("Falling tetrominoes", () => {
     );
   });
 });
-*/
