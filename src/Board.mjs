@@ -91,13 +91,11 @@ export class Board {
     return true;
   }
 
-  isEmpty(x,y) {
+  _isEmpty(x,y,shapes){
     let isempty = true;
     if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
       return false
     }
-    let shapes = this.shapes;
-    shapes.push(this.fallingShape);
     shapes.forEach(function(shape) {
       let positions = shape.getBlockPositions();
       for (let i = 0; i < positions.length; i++){
@@ -111,6 +109,16 @@ export class Board {
       }
     });
     return isempty;
+  }
+
+  isEmpty(x,y) {
+    let shapes = this.shapes;
+    shapes.push(this.fallingShape);
+    return this._isEmpty(x,y,shapes);
+  }
+
+  isEmptyWithoutFallingShape(x,y) {
+    return this._isEmpty(x,y,this.shapes);
   }
 
   toString() {
