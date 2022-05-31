@@ -73,4 +73,12 @@ describe("Falling tetrominoes", () => {
        ...TTT....`
     );
   });
+  it("no falling blocks when they land on another block", () => {
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
+    board.drop(Tetromino.T_SHAPE);
+    fallToBottom(board);
+    
+    expect(board.hasFalling()).to.be.false;
+  });
 });
