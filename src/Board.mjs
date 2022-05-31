@@ -71,7 +71,7 @@ export class Board {
         } else {
           this.shapes.push(this.fallingShape);
           this.fallingShape = undefined;
-          /*this.handleFullRows();*/
+          this.handleFullRows();
         }
     }
   }
@@ -85,13 +85,16 @@ export class Board {
       }
       let foundfallingshape = true;
       while (foundfallingshape){
+        for (let i = 0; i < this.shapes.length; i++){
+          let shape = this.shapes[i];
+          if (this.canFall(shape)){
+            foundfallingshape = true;
+            shape.cornery += 1;
+          }
+        }
         foundfallingshape = false;
       }
     }
-  }
-
-  fallShape(shape){
-    console.log('fallshape', shape);
   }
 
   fullRowIndexes(){
@@ -114,14 +117,22 @@ export class Board {
     return fullrowindexes;
   }
 
-  removeRow(idx){
-    console.log('removerow', idx);
+  removeRow(rowIndex){
+    console.log('removerow', rowIndex);
+    for (let i = 0; i < this.shapes.length; i++){
+      let shape = this.shapes[i];
+      if (rowIndex >= shape.cornery && rowIndex < shape.cornery + shape.size){
+        let shapeRowIndex = rowIndex - shape.cornery;
+        let mat = shape.rotations[shape.orientation];
+        mat[shapeRowIndex] = Array(shape.size).fill(0);
+      }
+    }
   }
 
   canFall(shape){
     let positions = this.getLowestBlockPositions(shape);
     /*console.log('can fall lowest posä', positions)*/
-    console.log(this.toString())
+    /*console.log(this.toString())*/
     for (let i = 0; i < positions.length; i++){
       let pos = positions[i];
       let x = pos[0];
