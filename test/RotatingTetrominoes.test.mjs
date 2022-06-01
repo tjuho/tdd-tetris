@@ -1,7 +1,7 @@
 
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
-import {Tetromino} from "../src/Tetromino.mjs";
+import { Tetromino } from "../src/Tetromino.mjs";
 
 function distinctOrientations(board) {
   const distinct = new Set();
@@ -160,6 +160,6 @@ describe("The O shape", () => {
   it("has 1 distinct orientations", () => {
     expect(distinctOrientations(board).size).to.equal(1);
   });
-  
+
 });
 

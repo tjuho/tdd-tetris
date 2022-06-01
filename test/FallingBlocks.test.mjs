@@ -30,7 +30,7 @@ describe("Falling blocks", () => {
     });
 
     it("checks if spot is empty 2", () => {
-      expect(board.isEmpty(1,1)).to.be.true;
+      expect(board.isEmpty(1, 1)).to.be.true;
     });
 
     it("it moves down one row per tick", () => {
@@ -60,7 +60,7 @@ describe("Falling blocks", () => {
       );
     });
   });
-  
+
   describe("When a block reaches the bottom", () => {
     beforeEach(() => {
       board.drop(Tetromino.X_SHAPE);
@@ -125,5 +125,5 @@ describe("Falling blocks", () => {
       );
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
-  }); 
+  });
 });
