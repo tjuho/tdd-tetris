@@ -40,7 +40,7 @@ export class Board {
       let x = pos[0];
       let y = pos[1];
       if (!this.isEmpty(x,y)){
-        let isgameover = true;
+        isgameover = true;
         break;
       }
     }
