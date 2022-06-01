@@ -1,5 +1,3 @@
-import { Tetromino } from "../src/Tetromino.mjs";
-import { SingleShape, IShape, TShape, Shape, Type } from "./Shape.mjs";
 import { ShapeBuilder } from "./ShapeBuilder.mjs";
 export class Board {
   width;
