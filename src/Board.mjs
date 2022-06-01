@@ -33,6 +33,24 @@ export class Board {
     this.fallingShape['size'] = this.fallingShape.rotations[0].length;
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size)/2);
     this.fallingShape.cornery = 0;
+    let positions = this.getBlockPositions(this.fallingShape);
+    let isgameover = false;
+    for (let i = 0; i < positions.length; i++){
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this.isEmpty(x,y)){
+        let isgameover = true;
+        break;
+      }
+    }
+    if (isgameover){
+      this.gameOver();
+    }
+  }
+
+  gameOver(){
+    console.log('game over');
   }
   moveRight(){
     if (this.fallingShape){
