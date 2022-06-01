@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
-/*
+
 describe("Falling blocks", () => {
   let board;
   beforeEach(() => {
@@ -29,9 +29,6 @@ describe("Falling blocks", () => {
       );
     });
 
-    it("checks if spot is empty 1", () => {
-      expect(board.isEmpty(1,0)).to.be.false;
-    });
     it("checks if spot is empty 2", () => {
       expect(board.isEmpty(1,1)).to.be.true;
     });
@@ -118,7 +115,7 @@ describe("Falling blocks", () => {
       ).to.be.true;
     });
 
-    xit("it stops when it hits the other block", () => {
+    it("it stops when it hits the other block", () => {
       board.tick();
 
       expect(board.toString()).to.equalShape(
@@ -129,4 +126,4 @@ describe("Falling blocks", () => {
       expect(board.hasFalling(), "the block should stop moving").to.be.false;
     });
   }); 
-});*/
+});

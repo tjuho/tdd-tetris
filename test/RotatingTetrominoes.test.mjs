@@ -1,11 +1,12 @@
 
 import { expect } from "chai";
-import { TShape, IShape, OShape } from "../src/Shape.mjs";
-/*
-function distinctOrientations(shape) {
+import { Board } from "../src/Board.mjs";
+import {Tetromino} from "../src/Tetromino.mjs";
+
+function distinctOrientations(board) {
   const distinct = new Set();
-  let goingRight = shape;
-  let goingLeft = shape;
+  let goingRight = board;
+  let goingLeft = board;
   for (let i = 0; i < 10; i++) {
     distinct.add(goingRight.toString());
     goingRight.rotateRight();
@@ -16,13 +17,14 @@ function distinctOrientations(shape) {
 }
 
 describe("The T shape", () => {
-  let shape;
+  let board;
   beforeEach(() => {
-    shape = new TShape('T');
+    board = new Board(3, 3);
+    board.drop(Tetromino.T_SHAPE);
   });
 
   it("initial orientation", () => {
-    expect(shape.toString()).to.equalShape(
+    expect(board.toString()).to.equalShape(
       `.T.
        TTT
        ...`
@@ -30,8 +32,8 @@ describe("The T shape", () => {
   });
 
   it("can be rotated right/clockwise", () => {
-    shape.rotateRight();
-    expect(shape.toString()).to.equalShape(
+    board.rotateRight();
+    expect(board.toString()).to.equalShape(
       `.T.
        .TT
        .T.`
@@ -39,8 +41,8 @@ describe("The T shape", () => {
   });
 
   it("can be rotated left/counter-clockwise", () => {
-    shape.rotateLeft();
-    expect(shape.toString()).to.equalShape(
+    board.rotateLeft();
+    expect(board.toString()).to.equalShape(
       `.T.
        TT.
        .T.`
@@ -48,9 +50,9 @@ describe("The T shape", () => {
   });
 
   it("can be rotated left/counter-clockwise", () => {
-    shape.rotateLeft();
-    shape.rotateLeft();
-    expect(shape.toString()).to.equalShape(
+    board.rotateLeft();
+    board.rotateLeft();
+    expect(board.toString()).to.equalShape(
       `...
        TTT
        .T.`
@@ -58,22 +60,22 @@ describe("The T shape", () => {
   });
 
   it("can be rotated left/counter-clockwise whole spin", () => {
-    shape.rotateLeft();
-    shape.rotateLeft();
-    shape.rotateLeft();
-    shape.rotateLeft();
-    expect(shape.toString()).to.equalShape(
+    board.rotateLeft();
+    board.rotateLeft();
+    board.rotateLeft();
+    board.rotateLeft();
+    expect(board.toString()).to.equalShape(
       `.T.
        TTT
        ...`
     );
   });
   it("can be rotated right/clockwise whole spin", () => {
-    shape.rotateRight();
-    shape.rotateRight();
-    shape.rotateRight();
-    shape.rotateRight();
-    expect(shape.toString()).to.equalShape(
+    board.rotateRight();
+    board.rotateRight();
+    board.rotateRight();
+    board.rotateRight();
+    expect(board.toString()).to.equalShape(
       `.T.
        TTT
        ...`
@@ -84,13 +86,14 @@ describe("The T shape", () => {
 
 
 describe("The I shape", () => {
-  let shape;
+  let board;
   beforeEach(() => {
-    shape = new IShape('I');
+    board = new Board(4, 4);
+    board.drop(Tetromino.I_SHAPE);
   });
 
   it("initial orientation", () => {
-    expect(shape.toString()).to.equalShape(
+    expect(board.toString()).to.equalShape(
       `....
        ....
        IIII
@@ -99,8 +102,8 @@ describe("The I shape", () => {
   });
 
   it("can be rotated right/clockwise", () => {
-    shape.rotateRight();
-    expect(shape.toString()).to.equalShape(
+    board.rotateRight();
+    expect(board.toString()).to.equalShape(
       `..I.
        ..I.
        ..I.
@@ -109,8 +112,8 @@ describe("The I shape", () => {
   });
 
   it("can be rotated left/counter-clockwise", () => {
-    shape.rotateLeft();
-    expect(shape.toString()).to.equalShape(
+    board.rotateLeft();
+    expect(board.toString()).to.equalShape(
       `..I.
        ..I.
        ..I.
@@ -119,44 +122,44 @@ describe("The I shape", () => {
   });
 
   it("has 2 distinct orientations", () => {
-    expect(distinctOrientations(shape).size).to.equal(2);
+    expect(distinctOrientations(board).size).to.equal(2);
   });
 });
 
 
 
 describe("The O shape", () => {
-  let shape;
+  let board;
   beforeEach(() => {
-    shape = new OShape('O');
+    board = new Board(2, 2);
+    board.drop(Tetromino.O_SHAPE);
   });
 
   it("initial orientation", () => {
-    expect(shape.toString()).to.equalShape(
+    expect(board.toString()).to.equalShape(
       `OO
        OO`
     );
   });
   it("cannot be rotated right/clockwise", () => {
-    shape.rotateRight();
-    expect(shape.toString()).to.equalShape(
+    board.rotateRight();
+    expect(board.toString()).to.equalShape(
       `OO
        OO`
     );
   });
 
-  xit("cannot be rotated left/counter-clockwise", () => {
-    shape.rotateLeft();
-    expect(shape.toString()).to.equalShape(
+  it("cannot be rotated left/counter-clockwise", () => {
+    board.rotateLeft();
+    expect(board.toString()).to.equalShape(
       `OO
        OO`
     );
   });
 
-  xit("has 1 distinct orientations", () => {
-    expect(distinctOrientations(shape).size).to.equal(1);
+  it("has 1 distinct orientations", () => {
+    expect(distinctOrientations(board).size).to.equal(1);
   });
   
 });
 
-*/

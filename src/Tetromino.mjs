@@ -5,6 +5,30 @@ export class Tetromino {
         cornerx: 0,
         cornery: 0
      };
+     static LR_SHAPE = {rotations: [[[0,1,1],[0,1,0],[0,1,0]],[[0,0,0],[1,1,1],[0,0,1]],[[0,1,0],[0,1,0],[1,1,0]],[[1,0,0],[1,1,1],[0,0,0]]],
+              orientation: 0,
+              color: 'L',
+              cornerx: 0,
+              cornery: 0
+           };
+           static LL_SHAPE = {rotations: [[[1,1,0],[0,1,0],[0,1,0]],[[0,0,1],[1,1,1],[0,0,0]],[[0,1,0],[0,1,0],[0,1,1]],[[0,0,0],[1,1,1],[1,0,0]]],
+                   orientation: 0,
+                   color: 'L',
+                   cornerx: 0,
+                   cornery: 0
+                   };
+                   static SL_SHAPE = {rotations: [[[0,0,1],[0,1,1],[0,1,0]],[[1,1,0],[0,1,1],[0,0,0]]],
+                           orientation: 0,
+                           color: 'S',
+                           cornerx: 0,
+                           cornery: 0
+                           };
+                           static SR_SHAPE = {rotations: [[[0,1,0],[0,1,1],[0,0,1]],[[0,1,1],[1,1,0],[0,0,0]]],
+                                   orientation: 0,
+                                   color: 'S',
+                                   cornerx: 0,
+                                   cornery: 0
+                                   };
 static I_SHAPE = {rotations: [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,0],[0,0,1,0],[0,0,1,0],[0,0,1,0]]],
         orientation: 0,
         color: 'I',
@@ -13,7 +37,7 @@ static I_SHAPE = {rotations: [[[0,0,0,0],[0,0,0,0],[1,1,1,1],[0,0,0,0]],[[0,0,1,
         };
 static O_SHAPE = {rotations: [[[1,1],[1,1]]],
         orientation: 0,
-        color: 'I',
+        color: 'O',
         cornerx: 0,
         cornery: 0
         };

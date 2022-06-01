@@ -169,9 +169,9 @@ export class Board {
   }
 
   canRotateRight(shape){
-    this.rotateRight(shape);
+    this._rotateRight(shape);
     let positions = this.getBlockPositions(shape);
-    this.rotateLeft(shape);
+    this._rotateLeft(shape);
     for (let i = 0; i < positions.length; i++){
       let pos = positions[i];
       let x = pos[0];
@@ -184,9 +184,9 @@ export class Board {
   }
   
   canRotateLeft(shape){
-    this.rotateLeft(shape);
+    this._rotateLeft(shape);
     let positions = this.getBlockPositions(shape);
-    this.rotateRight(shape);
+    this._rotateRight(shape);
     for (let i = 0; i < positions.length; i++){
       let pos = positions[i];
       let x = pos[0];
