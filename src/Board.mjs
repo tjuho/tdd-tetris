@@ -1,14 +1,15 @@
 import { Score } from "./Scores.mjs";
-
+import { Randomizer } from "./Randomizer.mjs";
+import { Tetromino } from "./Tetromino.mjs";
 export class Board {
   width;
   height;
   gameField;
   shapes;
   fallingShape;
-  shapeBuilder;
   score;
   level;
+
 
   constructor(width, height) {
     this.width = width;
@@ -17,6 +18,14 @@ export class Board {
     this.gameField = [];
     this.fallingShape = undefined;
     this.score = new Score();
+    this.tetrominoRandomizer = new Randomizer();
+    this.tetrominoRandomizer.add(Tetromino.I_SHAPE, 12);
+    this.tetrominoRandomizer.add(Tetromino.T_SHAPE, 18);
+    this.tetrominoRandomizer.add(Tetromino.O_SHAPE, 15);
+    this.tetrominoRandomizer.add(Tetromino.LR_SHAPE, 18);
+    this.tetrominoRandomizer.add(Tetromino.LL_SHAPE, 18);
+    this.tetrominoRandomizer.add(Tetromino.SL_SHAPE, 15);
+    this.tetrominoRandomizer.add(Tetromino.SR_SHAPE, 15);
   }
 
   hasFalling() {
