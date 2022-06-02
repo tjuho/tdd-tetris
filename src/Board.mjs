@@ -85,13 +85,14 @@ export class Board {
       } else {
         this.shapes.push(this.fallingShape);
         this.fallingShape = undefined;
-        this.handleFullRows();
+        this.clearingRows();
       }
     }
   }
 
-  handleFullRows() {
+  clearingRows() {
     let rowIds = this.fullRowIndexes();
+    let rowsCleared = rowIds.length;
     if (rowIds.length > 0) {
       for (let j = 0; j < rowIds.length; j++) {
         let y = rowIds[j];
