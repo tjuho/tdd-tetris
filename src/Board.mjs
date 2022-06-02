@@ -25,7 +25,6 @@ export class Board {
     } else { return false; }
   }
 
-
   drop(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
