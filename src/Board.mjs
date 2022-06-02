@@ -1,3 +1,5 @@
+import { Score } from "./Scores.mjs";
+
 export class Board {
   width;
   height;
@@ -5,6 +7,8 @@ export class Board {
   shapes;
   fallingShape;
   shapeBuilder;
+  score;
+  level;
 
   constructor(width, height) {
     this.width = width;
@@ -12,6 +16,7 @@ export class Board {
     this.shapes = [];
     this.gameField = [];
     this.fallingShape = undefined;
+    this.score = new Score();
   }
 
   hasFalling() {
@@ -92,8 +97,8 @@ export class Board {
 
   clearingRows() {
     let rowIds = this.fullRowIndexes();
-    let rowsCleared = rowIds.length;
     if (rowIds.length > 0) {
+      this.score.linesCleared(rowIds.length, this.level);
       for (let j = 0; j < rowIds.length; j++) {
         let y = rowIds[j];
         this.removeRow(y);

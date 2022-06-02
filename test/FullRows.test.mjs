@@ -15,7 +15,7 @@ describe("Removing full rows", () => {
     board = new Board(9, 6);
   });
 
-  it("start from the top middle", () => {
+  it("create a full row and remove it", () => {
     board.drop(Tetromino.T_SHAPE);
     fallToBottom(board);
     board.drop(Tetromino.T_SHAPE);
