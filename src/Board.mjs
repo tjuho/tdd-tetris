@@ -41,7 +41,6 @@ export class Board {
     this.fallingShape = Object.create(tetromino);
     this.fallingShape['size'] = this.fallingShape.rotations[0].length;
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size) / 2);
-    this.fallingShape.cornery = 0;
     let positions = this.getBlockPositions(this.fallingShape);
     let isgameover = false;
     for (let i = 0; i < positions.length; i++) {
@@ -79,6 +78,23 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateRight(this.fallingShape)) {
         this._rotateRight(this.fallingShape);
+      } else {
+        let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
+        let topleftcorner = this.fallingShape.cornerx;
+        if (topleftcorner < 0) {
+          for (let i = 0; i < -topleftcorner; i++) {
+            this.moveRight();
+          }
+        } else if (toprightcorner > this.width) {
+          for (let i = 0; i < toprightcorner - this.width; i++) {
+            this.moveLeft();
+          }
+        }
+        if (this.canRotateRight(this.fallingShape)) {
+          this._rotateRight(this.fallingShape);
+        } else {
+          this.fallingShape.cornerx = topleftcorner;
+        }
       }
     }
   }
@@ -86,6 +102,23 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateLeft(this.fallingShape)) {
         this._rotateLeft(this.fallingShape);
+      } else {
+        let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
+        let topleftcorner = this.fallingShape.cornerx;
+        if (topleftcorner < 0) {
+          for (let i = 0; i < -topleftcorner; i++) {
+            this.moveRight();
+          }
+        } else if (toprightcorner > this.width) {
+          for (let i = 0; i < toprightcorner - this.width; i++) {
+            this.moveLeft();
+          }
+        }
+        if (this.canRotateLeft(this.fallingShape)) {
+          this._rotateLeft(this.fallingShape);
+        } else {
+          this.fallingShape.cornerx = topleftcorner;
+        }
       }
     }
   }
