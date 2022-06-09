@@ -43,6 +43,7 @@ export class Board {
     this.fallingShape = Object.create(tetromino);
     this.fallingShape['size'] = this.fallingShape.rotations[0].length;
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size) / 2);
+    this.signalFallingShapeMoved();
     let positions = this.getBlockPositions(this.fallingShape);
     let isgameover = false;
     for (let i = 0; i < positions.length; i++) {
@@ -66,6 +67,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canMoveRight(this.fallingShape)) {
         this.fallingShape.cornerx += 1;
+        this.signalFallingShapeMoved();
       }
     }
   }
@@ -73,6 +75,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canMoveLeft(this.fallingShape)) {
         this.fallingShape.cornerx -= 1;
+        this.signalFallingShapeMoved();
       }
     }
   }
@@ -80,6 +83,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateRight(this.fallingShape)) {
         this._rotateRight(this.fallingShape);
+        this.signalFallingShapeMoved();
       } else {
         let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
         let topleftcorner = this.fallingShape.cornerx;
@@ -94,6 +98,7 @@ export class Board {
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
+          this.signalFallingShapeMoved();
         } else {
           this.fallingShape.cornerx = topleftcorner;
         }
@@ -104,6 +109,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateLeft(this.fallingShape)) {
         this._rotateLeft(this.fallingShape);
+        this.signalFallingShapeMoved();
       } else {
         let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
         let topleftcorner = this.fallingShape.cornerx;
@@ -118,6 +124,7 @@ export class Board {
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
+          this.signalFallingShapeMoved();
         } else {
           this.fallingShape.cornerx = topleftcorner;
         }
@@ -129,8 +136,10 @@ export class Board {
     if (this.fallingShape) {
       if (this.canFall(this.fallingShape)) {
         this.fallingShape.cornery += 1;
+        this.signalFallingShapeMoved();
       } else {
         this.shapes.push(this.fallingShape);
+        this.signalStaticShapesChanged();
         this.fallingShape = undefined;
         this.clearingRows();
       }
@@ -383,6 +392,23 @@ export class Board {
       obs[i].linesRemoved(count);
     }
   }
+
+  signalFallingShapeMoved() {
+    let obs = this.observers.fallingshapemoved;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].fallingShapeMoved(this.fallingShape);
+    }
+  }
+
+  signalStaticShapesChanged() {
+    let obs = this.observers.staticshapeschanged;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].staticShapesChanged(this.shapes);
+    }
+  }
+
   addObserver(type, object) {
     if (!this.observers) {
       this.observers = {};
