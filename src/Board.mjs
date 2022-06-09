@@ -9,6 +9,7 @@ export class Board {
   fallingShape;
   score;
   level;
+  observers;
 
 
   constructor(width, height) {
@@ -18,6 +19,7 @@ export class Board {
     this.gameField = [];
     this.fallingShape = undefined;
     this.score = new Score();
+    this.observers = {};
     this.tetrominoRandomizer = new Randomizer();
     this.tetrominoRandomizer.add(Tetromino.I_SHAPE, 12);
     this.tetrominoRandomizer.add(Tetromino.T_SHAPE, 18);
@@ -124,7 +126,6 @@ export class Board {
   }
 
   tick() {
-    /*console.log('shapes tick', this.shapes)*/
     if (this.fallingShape) {
       if (this.canFall(this.fallingShape)) {
         this.fallingShape.cornery += 1;
@@ -140,6 +141,7 @@ export class Board {
     let rowIds = this.fullRowIndexes();
     if (rowIds.length > 0) {
       this.score.linesCleared(rowIds.length, this.level);
+      this.signalLinesRemoved(rowIds.length);
       for (let j = 0; j < rowIds.length; j++) {
         let y = rowIds[j];
         this.removeRow(y);
@@ -179,7 +181,6 @@ export class Board {
   }
 
   removeRow(rowIndex) {
-    console.log('removerow', rowIndex);
     for (let i = 0; i < this.shapes.length; i++) {
       let shape = this.shapes[i];
       if (rowIndex >= shape.cornery && rowIndex < shape.cornery + shape.size) {
@@ -192,8 +193,6 @@ export class Board {
 
   canFall(shape) {
     let positions = this.getLowestBlockPositions(shape);
-    /*console.log('can fall lowest posä', positions)*/
-    /*console.log(this.toString())*/
     for (let i = 0; i < positions.length; i++) {
       let pos = positions[i];
       let x = pos[0];
@@ -266,14 +265,11 @@ export class Board {
       return false
     }
 
-    /*console.log('target x',x);
-    console.log('target y',y);*/
     for (let i = 0; i < shapes.length; i++) {
       let shape = shapes[i];
       let positions = this.getBlockPositions(shape);
       for (let j = 0; j < positions.length; j++) {
         let pos = positions[j];
-        /*console.log('test', pos)*/
         let tx = parseInt(pos[0]);
         let ty = parseInt(pos[1]);
         if (x === tx && y === ty) {
@@ -380,6 +376,23 @@ export class Board {
     return shapes;
   }
 
+  signalLinesRemoved(count) {
+    let obs = this.observers.linesremoved;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].linesRemoved(count);
+    }
+  }
+  addObserver(type, object) {
+    if (!this.observers) {
+      this.observers = {};
+    }
+    if (!this.observers[type]) {
+      this.observers[type] = [object];
+    } else {
+      this.observers[type].push(object);
+    }
+  }
   toString() {
     let str = '';
     for (let r = 0; r < this.height; r++) {
@@ -389,7 +402,6 @@ export class Board {
       str += '\n';
     }
     let shapes = this.getAllShapes();
-    /*console.log('shapes to string', shapes)*/
     let width = this.width;
     for (let i = 0; i < shapes.length; i++) {
       let shape = shapes[i];

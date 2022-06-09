@@ -11,6 +11,7 @@ function fallToBottom(board) {
 
 describe("Removing full rows", () => {
   let board;
+  let Observer
   beforeEach(() => {
     board = new Board(9, 6);
   });
