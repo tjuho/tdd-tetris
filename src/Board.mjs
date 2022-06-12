@@ -374,6 +374,23 @@ export class Board {
     }
   }
 
+  getFallingTetrominoPositionAndColor() {
+    if (!this.fallingShape) {
+      return undefined;
+    }
+    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
+  }
+
+  getStaticTetrominoPositionsAndColors() {
+    let result = []
+    for (let i = 0; i < this.shapes.length; i++) {
+      let shape = this.shapes[i];
+      temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
+      result.push(temp);
+    }
+    return result;
+  }
+
   getAllShapes() {
     let shapes = [];
     for (let i = 0; i < this.shapes.length; i++) {
