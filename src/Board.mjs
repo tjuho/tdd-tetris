@@ -385,7 +385,7 @@ export class Board {
     let result = []
     for (let i = 0; i < this.shapes.length; i++) {
       let shape = this.shapes[i];
-      temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
+      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
       result.push(temp);
     }
     return result;
@@ -455,6 +455,34 @@ export class Board {
         let y = parseInt(pos[1]);
         let j = x + y * (width + 1);
         str = str.substring(0, j) + shape.color + str.substring(j + 1);
+      }
+    }
+    return str;
+  }
+
+  toString() {
+    let str = '';
+    for (let r = 0; r < this.height; r++) {
+      for (let c = 0; c < this.width; c++) {
+        str += '.';
+      }
+      str += '\n';
+    }
+    let falling = this.getFallingTetrominoPositionAndColor();
+    let statics = this.getStaticTetrominoPositionsAndColors();
+    if (falling) {
+      statics.push(falling);
+    }
+    for (let i = 0; i < statics.length; i++) {
+      let temp = statics[i];
+      let positions = temp.positions;
+      let color = temp.color;
+      for (let s = 0; s < positions.length; s++) {
+        let pos = positions[s];
+        let x = parseInt(pos[0]);
+        let y = parseInt(pos[1]);
+        let j = x + y * (this.width + 1);
+        str = str.substring(0, j) + color + str.substring(j + 1);
       }
     }
     return str;
