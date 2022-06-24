@@ -36,6 +36,10 @@ export class Board {
     } else { return false; }
   }
 
+  dropRandom() {
+    this.drop(this.tetrominoRandomizer.next());
+  }
+
   drop(tetromino) {
     if (this.hasFalling()) {
       throw "already falling";
@@ -374,22 +378,6 @@ export class Board {
     }
   }
 
-  getFallingTetrominoPositionAndColor() {
-    if (!this.fallingShape) {
-      return undefined;
-    }
-    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
-  }
-
-  getStaticTetrominoPositionsAndColors() {
-    let result = []
-    for (let i = 0; i < this.shapes.length; i++) {
-      let shape = this.shapes[i];
-      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
-      result.push(temp);
-    }
-    return result;
-  }
 
   getAllShapes() {
     let shapes = [];
@@ -423,6 +411,39 @@ export class Board {
     if (!obs) { return }
     for (let i = 0; i < obs.length; i++) {
       obs[i].staticShapesChanged(this.shapes);
+    }
+  }
+
+  getFallingTetrominoPositionAndColor() {
+    if (!this.fallingShape) {
+      return undefined;
+    }
+    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
+  }
+
+  getStaticTetrominoPositionsAndColors() {
+    let result = []
+    for (let i = 0; i < this.shapes.length; i++) {
+      let shape = this.shapes[i];
+      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
+      result.push(temp);
+    }
+    return result;
+  }
+
+  signalStaticTetrominosChanged() {
+    let obs = this.observers.statictetrominoschanged;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].staticTetrominosChanged(this.getStaticTetrominoPositionsAndColors());
+    }
+  }
+
+  signalFallingTetrominoChanged() {
+    let obs = this.observers.fallingtetrominochanged;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].fallingTetrominoChanged(this.getFallingTetrominoPositionAndColor());
     }
   }
 
@@ -488,3 +509,5 @@ export class Board {
     return str;
   }
 }
+
+export default Board;
