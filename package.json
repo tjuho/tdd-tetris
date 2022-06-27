@@ -32,7 +32,7 @@
     "test": "mocha --require test/testing.mjs 'test/**/*.test.mjs'",
     "autotest": "npm run test -- --watch",
     "format": "prettier --write .",
-    "test-rotation": "mocha --require test/testing.mjs 'test/RotatingTetrominoes.test.mjs'",
-    "autotest-rotation": "npm run test-rotation -- --watch"
+    "test-single": "mocha --require test/testing.mjs 'test/MovingTetrominoes.test.mjs'",
+    "autotest-single": "npm run test-single -- --watch"
   }
 }
