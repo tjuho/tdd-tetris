@@ -88,25 +88,44 @@ export class Board {
       if (this.canRotateRight(this.fallingShape)) {
         this._rotateRight(this.fallingShape);
         this.signalFallingShapeMoved();
-      } else {
-        let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
-        let topleftcorner = this.fallingShape.cornerx;
-        if (topleftcorner < 0) {
-          for (let i = 0; i < -topleftcorner; i++) {
-            this.moveRight();
-          }
-        } else if (toprightcorner > this.width) {
-          for (let i = 0; i < toprightcorner - this.width; i++) {
-            this.moveLeft();
-          }
+        return;
+      }
+      let topleftcorner = this.fallingShape.cornerx;
+      if (topleftcorner < 0) {
+        for (let i = 0; i < -topleftcorner; i++) {
+          this.moveRight();
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
           this.signalFallingShapeMoved();
-        } else {
-          this.fallingShape.cornerx = topleftcorner;
+          return;
         }
       }
+      let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
+      if (toprightcorner > this.width) {
+        for (let i = 0; i < toprightcorner - this.width; i++) {
+          this.moveLeft();
+        }
+        if (this.canRotateRight(this.fallingShape)) {
+          this._rotateRight(this.fallingShape);
+          this.signalFallingShapeMoved();
+          return;
+        }
+      }
+      let topleftcornery = this.fallingShape.cornery;
+      if (topleftcornery < 0) {
+        this._rotateRight(this.fallingShape);
+        for (let i = 0; i < -topleftcornery; i++) {
+          this.fallingShape.cornery += 1;
+        }
+        if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
+          this.signalFallingShapeMoved();
+          return
+        }
+        this._rotateLeft(this.fallingShape);
+        this.fallingShape.cornery = topleftcornery
+      }
+      this.fallingShape.cornerx = topleftcorner;
     }
   }
   rotateLeft() {
@@ -114,25 +133,44 @@ export class Board {
       if (this.canRotateLeft(this.fallingShape)) {
         this._rotateLeft(this.fallingShape);
         this.signalFallingShapeMoved();
-      } else {
-        let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
-        let topleftcorner = this.fallingShape.cornerx;
-        if (topleftcorner < 0) {
-          for (let i = 0; i < -topleftcorner; i++) {
-            this.moveRight();
-          }
-        } else if (toprightcorner > this.width) {
-          for (let i = 0; i < toprightcorner - this.width; i++) {
-            this.moveLeft();
-          }
+        return;
+      }
+      let topleftcorner = this.fallingShape.cornerx;
+      if (topleftcorner < 0) {
+        for (let i = 0; i < -topleftcorner; i++) {
+          this.moveRight();
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
           this.signalFallingShapeMoved();
-        } else {
-          this.fallingShape.cornerx = topleftcorner;
+          return;
         }
       }
+      let toprightcorner = this.fallingShape.cornerx + this.fallingShape.size;
+      if (toprightcorner > this.width) {
+        for (let i = 0; i < toprightcorner - this.width; i++) {
+          this.moveLeft();
+        }
+        if (this.canRotateLeft(this.fallingShape)) {
+          this._rotateLeft(this.fallingShape);
+          this.signalFallingShapeMoved();
+          return;
+        }
+      }
+      let topleftcornery = this.fallingShape.cornery;
+      if (topleftcornery < 0) {
+        this._rotateLeft(this.fallingShape);
+        for (let i = 0; i < -topleftcornery; i++) {
+          this.fallingShape.cornery += 1;
+        }
+        if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
+          this.signalFallingShapeMoved();
+          return
+        }
+        this._rotateRight(this.fallingShape);
+        this.fallingShape.cornery = topleftcornery
+      }
+      this.fallingShape.cornerx = topleftcorner;
     }
   }
 
@@ -271,6 +309,17 @@ export class Board {
     return true;
   }
 
+  areEmptyPositions(positions) {
+    for (let i = 0; i < positions.length; i++) {
+      let pos = positions[i];
+      let x = pos[0];
+      let y = pos[1];
+      if (!this._isEmpty(x, y, this.shapes)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   _isEmpty(x, y, shapes) {
     let isempty = true;
