@@ -4,7 +4,7 @@ import { Board } from "../src/Board.mjs";
 import { Tetromino } from "../src/Tetromino.mjs";
 
 function distinctOrientationsCount(tetromino) {
-  board = new Board(6, 9)
+  let board = new Board(6, 9)
   board.drop(tetromino)
   board.tick()
   board.tick()
@@ -35,7 +35,6 @@ describe("The I shape", () => {
       `....
        IIII
        ....
-       ....
        ....`
     );
   });
@@ -61,10 +60,10 @@ describe("The I shape", () => {
   });
   it("can be rotated left/counter-clockwise whole spin", () => {
     board.rotateLeft();
+    board.rotateLeft();
     expect(board.toString()).to.equalShape(
       `....
        IIII
-       ....
        ....
        ....`
     );
@@ -114,9 +113,9 @@ describe("The O shape", () => {
 describe("The left L shape", () => {
   let board;
   beforeEach(() => {
-    board = new Board(3, 4);
+    board = new Board(3, 3);
     board.drop(Tetromino.LL_SHAPE);
-    Board.tick();
+    board.tick();
   });
 
   it("initial orientation", () => {
@@ -130,9 +129,9 @@ describe("The left L shape", () => {
   it("can be rotated left/counter-clockwise", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `LL.
-         L..
-         L..`
+      `.LL
+         .L.
+         .L.`
     );
   });
 
@@ -192,9 +191,9 @@ describe("The left L shape", () => {
     board.rotateRight();
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `LL.
-         L..
-         L..`
+      `.LL
+         .L.
+         .L.`
     );
   });
 
@@ -205,8 +204,8 @@ describe("The left L shape", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
       `...
-       LLL
-       ..L`
+        LLL
+         ..L`
     );
   });
   it("has 4 distinct orientations", () => {
@@ -216,9 +215,9 @@ describe("The left L shape", () => {
 describe("The right L shape", () => {
   let board;
   beforeEach(() => {
-    board = new Board(3, 4);
+    board = new Board(3, 3);
     board.drop(Tetromino.LR_SHAPE);
-    Board.tick();
+    board.tick();
   });
 
   it("initial orientation", () => {
@@ -232,9 +231,9 @@ describe("The right L shape", () => {
   it("can be rotated left/counter-clockwise", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `L..
-         L..
-         LL.`
+      `.L.
+         .L.
+         .LL`
     );
   });
 
@@ -266,8 +265,8 @@ describe("The right L shape", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
       `...
-       LLL
-       L.`
+        LLL
+         L..`
     );
   });
 
@@ -294,9 +293,9 @@ describe("The right L shape", () => {
     board.rotateRight();
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `L..
-         L..
-         LL.`
+      `.L.
+         .L.
+         .LL`
     );
   });
 
@@ -307,8 +306,8 @@ describe("The right L shape", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
       `...
-       LLL
-       L.`
+        LLL
+         L..`
     );
   });
   it("has 4 distinct orientations", () => {
@@ -318,9 +317,9 @@ describe("The right L shape", () => {
 describe("The right S shape", () => {
   let board;
   beforeEach(() => {
-    board = new Board(3, 4);
-    board.drop(Tetromino.T_SHAPE);
-    Board.tick();
+    board = new Board(3, 3);
+    board.drop(Tetromino.SR_SHAPE);
+    board.tick();
   });
 
   it("initial orientation", () => {
@@ -371,15 +370,15 @@ describe("The right S shape", () => {
     );
   });
   it("has 2 distinct orientations", () => {
-    expect(distinctOrientationsCount(Tetromino.SR_SHAPE)).to.equal(4);
+    expect(distinctOrientationsCount(Tetromino.SR_SHAPE)).to.equal(2);
   });
 });
 describe("The left S shape", () => {
   let board;
   beforeEach(() => {
-    board = new Board(3, 4);
-    board.drop(Tetromino.T_SHAPE);
-    Board.tick();
+    board = new Board(3, 3);
+    board.drop(Tetromino.SL_SHAPE);
+    board.tick();
   });
 
   it("initial orientation", () => {
@@ -393,9 +392,9 @@ describe("The left S shape", () => {
   it("can be rotated left/counter-clockwise", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `.S.
-         SS.
-         S..`
+      `..S
+         .SS
+         .S.`
     );
   });
 
@@ -414,9 +413,9 @@ describe("The left S shape", () => {
   it("can be rotated right/clockwise", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `.S.
-         SS.
-         S..`
+      `..S
+         .SS
+         .S.`
     );
   });
 
@@ -430,6 +429,6 @@ describe("The left S shape", () => {
     );
   });
   it("has 2 distinct orientations", () => {
-    expect(distinctOrientationsCount(Tetromino.SL_SHAPE)).to.equal(4);
+    expect(distinctOrientationsCount(Tetromino.SL_SHAPE)).to.equal(2);
   });
 });
