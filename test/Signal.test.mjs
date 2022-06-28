@@ -81,4 +81,21 @@ describe("State change and send signal", () => {
         fallToBottom(board);
         expect(Observer.shapes.length).to.eql(board.shapes.length);
     });
+    if ("send signal when game is over", () => {
+        let Observer = {
+            points: undefined,
+            gameOver: function (points) {
+                this.points = points;
+            }
+        }
+        board.addObserver('staticshapeschanged', Observer);
+        board.drop(Tetromino.T_SHAPE);
+        fallToBottom(board);
+        board.drop(Tetromino.T_SHAPE);
+        fallToBottom(board);
+        board.drop(Tetromino.T_SHAPE);
+        fallToBottom(board);
+        board.drop(Tetromino.T_SHAPE);
+        expect(Observer.points).to.be(0);
+    });
 });

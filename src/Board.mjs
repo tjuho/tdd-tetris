@@ -49,24 +49,26 @@ export class Board {
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size) / 2);
     this.signalFallingShapeMoved();
     let positions = this.getBlockPositions(this.fallingShape);
-    let isgameover = false;
     for (let i = 0; i < positions.length; i++) {
       let pos = positions[i];
       let x = pos[0];
       let y = pos[1];
       if (!this.isEmpty(x, y)) {
-        isgameover = true;
+        this.gameOver();
         break;
       }
-    }
-    if (isgameover) {
-      this.gameOver();
     }
   }
 
   gameOver() {
     console.log('game over');
+    this.fallingShape = undefined;
+    this.shapes = [];
+    let previousScore = this.score.getScore();
+    this.signalGameOver(previousScore);
+    this.score.reset();
   }
+
   moveRight() {
     if (this.fallingShape) {
       if (this.canMoveRight(this.fallingShape)) {
@@ -439,6 +441,14 @@ export class Board {
     return shapes;
   }
 
+  signalGameOver(points) {
+    let obs = this.observers.gameover;
+    if (!obs) { return }
+    for (let i = 0; i < obs.length; i++) {
+      obs[i].gameOver(points);
+    }
+  }
+
   signalLinesRemoved(count) {
     let obs = this.observers.linesremoved;
     if (!obs) { return }
@@ -461,23 +471,6 @@ export class Board {
     for (let i = 0; i < obs.length; i++) {
       obs[i].staticShapesChanged(this.shapes);
     }
-  }
-
-  getFallingTetrominoPositionAndColor() {
-    if (!this.fallingShape) {
-      return undefined;
-    }
-    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
-  }
-
-  getStaticTetrominoPositionsAndColors() {
-    let result = []
-    for (let i = 0; i < this.shapes.length; i++) {
-      let shape = this.shapes[i];
-      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
-      result.push(temp);
-    }
-    return result;
   }
 
   signalStaticTetrominosChanged() {
@@ -506,6 +499,24 @@ export class Board {
       this.observers[type].push(object);
     }
   }
+
+  getFallingTetrominoPositionAndColor() {
+    if (!this.fallingShape) {
+      return undefined;
+    }
+    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
+  }
+
+  getStaticTetrominoPositionsAndColors() {
+    let result = []
+    for (let i = 0; i < this.shapes.length; i++) {
+      let shape = this.shapes[i];
+      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
+      result.push(temp);
+    }
+    return result;
+  }
+
   toString() {
     let str = '';
     for (let r = 0; r < this.height; r++) {
