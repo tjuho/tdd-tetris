@@ -85,6 +85,16 @@ export class Board {
       }
     }
   }
+  moveDown() {
+    if (this.fallingShape && this.canFall(this.fallingShape)) {
+      this.tick();
+    }
+  }
+  moveToBottom() {
+    while (this.fallingShape) {
+      this.tick();
+    }
+  }
   rotateRight() {
     if (this.fallingShape) {
       if (this.canRotateRight(this.fallingShape)) {
@@ -241,6 +251,12 @@ export class Board {
         let mat = shape.rotations[shape.orientation];
         mat[shapeRowIndex] = Array(shape.size).fill(0);
       }
+    }
+  }
+
+  _moveDown(shape) {
+    if (this.canFall(shape)) {
+      shape.cornery += 1
     }
   }
 
