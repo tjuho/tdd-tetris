@@ -1,4 +1,4 @@
-import { Score } from "./Scores.mjs";
+import { Score } from "./Score.mjs";
 import { Randomizer } from "./Randomizer.mjs";
 import { Tetromino } from "./Tetromino.mjs";
 export class Board {
