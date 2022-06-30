@@ -17,6 +17,9 @@ export class Board {
     this.height = height;
     this.shapes = [];
     this.gameField = [];
+    for (let r = 0; r < height; r++) {
+      this.gameField.push(Array(width))
+    }
     this.fallingShape = undefined;
     this.score = new Score();
     this.observers = {};
@@ -186,15 +189,38 @@ export class Board {
 
   tick() {
     if (this.fallingShape) {
-      if (this.canFall(this.fallingShape)) {
+      if (this.canFall(Object.create(this.fallingShape))) {
         this.fallingShape.cornery += 1;
         /*this.signalFallingShapeMoved();*/
       } else {
         this.shapes.push(this.fallingShape);
+        const positions = this.getBlockPositions(this.fallingShape);
+        for (let p = 0; p < positions.length; p++) {
+          const pos = positions[p];
+          this.gameField[pos[1]][pos[0]] = this.fallingShape.color;
+        }
         /*this.signalStaticShapesChanged();*/
         this.fallingShape = undefined;
-        this.clearingRows();
+        /*this.clearingRows();*/
+        this.clearFullRows();
       }
+    }
+  }
+
+  clearFullRows() {
+    let rowNumbers = [];
+    for (let r = 0; r < this.height; r++) {
+      if (!this.gameField[r].includes(undefined)) {
+        rowNumbers.push(r);
+      }
+    }
+    for (let n = rowNumbers.length - 1; 0 <= n; n--) {
+      let row = rowNumbers[n];
+      this.gameField.splice(row, 1);
+    }
+    this.score.rowsCleared(this.height - this.gameField.length);
+    while (this.gameField.length < this.height) {
+      this.gameField.unshift(Array(this.width));
     }
   }
 
@@ -415,6 +441,7 @@ export class Board {
   }
 
   getBlockPositions(shape) {
+    if (shape === undefined) { return [] }
     let positions = [];
     let matrix = shape.rotations[shape.orientation];
     for (let r = 0; r < shape.size; r++) {
@@ -574,6 +601,27 @@ export class Board {
     }
     return str;
   }
-}
 
+  toString() {
+    let str = '';
+    for (let r = 0; r < this.height; r++) {
+      for (let c = 0; c < this.width; c++) {
+        if (this.gameField[r][c] === undefined) {
+          str += '.';
+        } else {
+          str += this.gameField[r][c];
+        }
+      }
+      str += '\n';
+    }
+    let positions = this.getBlockPositions(this.fallingShape);
+    for (let i = 0; i < positions.length; i++) {
+      let row = positions[i][1];
+      let col = positions[i][0];
+      let index = row * (this.width + 1) + col;
+      str = str.substring(0, index) + this.fallingShape.color + str.substring(index + 1);
+    }
+    return str;
+  }
+}
 export default Board;
