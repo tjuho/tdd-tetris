@@ -64,8 +64,6 @@ export class Board {
     console.log('game over');
     this.fallingShape = undefined;
     this.shapes = [];
-    let previousScore = this.score.getScore();
-    this.signalGameOver(previousScore);
     this.score.reset();
   }
 
@@ -203,7 +201,7 @@ export class Board {
   clearingRows() {
     let rowIds = this.fullRowIndexes();
     if (rowIds.length > 0) {
-      this.score.linesCleared(rowIds.length, this.level);
+      this.score.rowsCleared(rowIds.length, this.level);
       this.signalLinesRemoved(rowIds.length);
       for (let j = 0; j < rowIds.length; j++) {
         let y = rowIds[j];
@@ -455,14 +453,6 @@ export class Board {
       shapes.push(this.fallingShape);
     }
     return shapes;
-  }
-
-  signalGameOver(points) {
-    let obs = this.observers.gameover;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].gameOver(points);
-    }
   }
 
   signalLinesRemoved(count) {
