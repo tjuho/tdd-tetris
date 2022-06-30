@@ -15,7 +15,7 @@ describe("State change and send signal", () => {
     beforeEach(() => {
         board = new Board(9, 6);
     });
-
+    /*
     it("remove row and send signal", () => {
         let Observer = {
             count: -1,
@@ -97,5 +97,5 @@ describe("State change and send signal", () => {
         fallToBottom(board);
         board.drop(Tetromino.T_SHAPE);
         expect(Observer.points).to.be(0);
-    });
+    });*/
 });

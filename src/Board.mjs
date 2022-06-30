@@ -47,7 +47,7 @@ export class Board {
     this.fallingShape = Object.create(tetromino);
     this.fallingShape['size'] = this.fallingShape.rotations[0].length;
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size) / 2);
-    this.signalFallingShapeMoved();
+    /*this.signalFallingShapeMoved();*/
     let positions = this.getBlockPositions(this.fallingShape);
     for (let i = 0; i < positions.length; i++) {
       let pos = positions[i];
@@ -71,7 +71,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canMoveRight(this.fallingShape)) {
         this.fallingShape.cornerx += 1;
-        this.signalFallingShapeMoved();
+        /*this.signalFallingShapeMoved();*/
       }
     }
   }
@@ -79,7 +79,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canMoveLeft(this.fallingShape)) {
         this.fallingShape.cornerx -= 1;
-        this.signalFallingShapeMoved();
+        /*this.signalFallingShapeMoved();*/
       }
     }
   }
@@ -97,7 +97,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateRight(this.fallingShape)) {
         this._rotateRight(this.fallingShape);
-        this.signalFallingShapeMoved();
+        /*this.signalFallingShapeMoved();*/
         return;
       }
       let topleftcorner = this.fallingShape.cornerx;
@@ -107,7 +107,7 @@ export class Board {
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return;
         }
       }
@@ -118,7 +118,7 @@ export class Board {
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return;
         }
       }
@@ -129,7 +129,7 @@ export class Board {
           this.fallingShape.cornery += 1;
         }
         if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return
         }
         this._rotateLeft(this.fallingShape);
@@ -142,7 +142,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateLeft(this.fallingShape)) {
         this._rotateLeft(this.fallingShape);
-        this.signalFallingShapeMoved();
+        /*this.signalFallingShapeMoved();*/
         return;
       }
       let topleftcorner = this.fallingShape.cornerx;
@@ -152,7 +152,7 @@ export class Board {
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return;
         }
       }
@@ -163,7 +163,7 @@ export class Board {
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return;
         }
       }
@@ -174,7 +174,7 @@ export class Board {
           this.fallingShape.cornery += 1;
         }
         if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
-          this.signalFallingShapeMoved();
+          /*this.signalFallingShapeMoved();*/
           return
         }
         this._rotateRight(this.fallingShape);
@@ -188,10 +188,10 @@ export class Board {
     if (this.fallingShape) {
       if (this.canFall(this.fallingShape)) {
         this.fallingShape.cornery += 1;
-        this.signalFallingShapeMoved();
+        /*this.signalFallingShapeMoved();*/
       } else {
         this.shapes.push(this.fallingShape);
-        this.signalStaticShapesChanged();
+        /*this.signalStaticShapesChanged();*/
         this.fallingShape = undefined;
         this.clearingRows();
       }
@@ -202,7 +202,7 @@ export class Board {
     let rowIds = this.fullRowIndexes();
     if (rowIds.length > 0) {
       this.score.rowsCleared(rowIds.length, this.level);
-      this.signalLinesRemoved(rowIds.length);
+      /*this.signalLinesRemoved(rowIds.length);*/
       for (let j = 0; j < rowIds.length; j++) {
         let y = rowIds[j];
         this.removeRow(y);
