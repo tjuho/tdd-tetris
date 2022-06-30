@@ -9,7 +9,7 @@ export class Tetromino {
     static LR_SHAPE = {
         rotations: [[[0, 0, 0], [1, 1, 1], [1, 0, 0]], [[1, 1, 0], [0, 1, 0], [0, 1, 0]], [[0, 0, 0], [0, 0, 1], [1, 1, 1]], [[0, 1, 0], [0, 1, 0], [0, 1, 1]]],
         orientation: 0,
-        color: 'L',
+        color: 'K',
         cornerx: 0,
         cornery: -1
     };
@@ -30,7 +30,7 @@ export class Tetromino {
     static SR_SHAPE = {
         rotations: [[[0, 0, 0], [0, 1, 1], [1, 1, 0]], [[1, 0, 0], [1, 1, 0], [0, 1, 0]]],
         orientation: 0,
-        color: 'S',
+        color: 'A',
         cornerx: 0,
         cornery: -1
     };

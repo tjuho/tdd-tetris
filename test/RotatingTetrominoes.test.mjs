@@ -223,17 +223,17 @@ describe("The right L shape", () => {
   it("initial orientation", () => {
     expect(board.toString()).to.equalShape(
       `...
-        LLL
-         L..`
+        KKK
+         K..`
     );
   });
 
   it("can be rotated left/counter-clockwise", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `.L.
-         .L.
-         .LL`
+      `.K.
+         .K.
+         .KK`
     );
   });
 
@@ -243,8 +243,8 @@ describe("The right L shape", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
       `...
-         ..L
-         LLL`
+         ..K
+         KKK`
     );
   });
 
@@ -253,9 +253,9 @@ describe("The right L shape", () => {
     board.rotateLeft();
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `LL.
-       .L.
-       .L.`
+      `KK.
+       .K.
+       .K.`
     );
   });
   it("can be rotated left/counter-clockwise whole spin", () => {
@@ -265,17 +265,17 @@ describe("The right L shape", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
       `...
-        LLL
-         L..`
+        KKK
+         K..`
     );
   });
 
   it("can be rotated right/clockwise", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `LL.
-       .L.
-       .L.`
+      `KK.
+       .K.
+       .K.`
     );
   });
 
@@ -284,8 +284,8 @@ describe("The right L shape", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
       `...
-         ..L
-         LLL`
+         ..K
+         KKK`
     );
   });
   it("can be rotated 3x right/clockwise", () => {
@@ -293,9 +293,9 @@ describe("The right L shape", () => {
     board.rotateRight();
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `.L.
-         .L.
-         .LL`
+      `.K.
+         .K.
+         .KK`
     );
   });
 
@@ -306,8 +306,8 @@ describe("The right L shape", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
       `...
-        LLL
-         L..`
+        KKK
+         K..`
     );
   });
   it("has 4 distinct orientations", () => {
@@ -325,17 +325,17 @@ describe("The right S shape", () => {
   it("initial orientation", () => {
     expect(board.toString()).to.equalShape(
       `...
-        .SS
-         SS.`
+        .AA
+         AA.`
     );
   });
 
   it("can be rotated left/counter-clockwise", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
-      `S..
-         SS.
-         .S.`
+      `A..
+         AA.
+         .A.`
     );
   });
 
@@ -345,8 +345,8 @@ describe("The right S shape", () => {
     board.rotateLeft();
     expect(board.toString()).to.equalShape(
       `...
-        .SS
-         SS.`
+        .AA
+         AA.`
     );
   });
 
@@ -354,9 +354,9 @@ describe("The right S shape", () => {
   it("can be rotated right/clockwise", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
-      `S..
-         SS.
-         .S.`
+      `A..
+         AA.
+         .A.`
     );
   });
 
@@ -365,8 +365,8 @@ describe("The right S shape", () => {
     board.rotateRight();
     expect(board.toString()).to.equalShape(
       `...
-        .SS
-         SS.`
+        .AA
+         AA.`
     );
   });
   it("has 2 distinct orientations", () => {
