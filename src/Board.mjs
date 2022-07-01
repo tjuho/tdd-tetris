@@ -389,6 +389,11 @@ export class Board {
     return this._isEmpty(x, y, this.shapes);
   }
 
+  isEmpty(x, y) {
+    if (x >= this.width || x < 0 || y >= this.height || y < 0) { return false; }
+    return (this.gameField[y][x] === undefined);
+  }
+
   getRightMostBlockPositions(shape) {
     let result = []
     let mat = shape.rotations[shape.orientation];
