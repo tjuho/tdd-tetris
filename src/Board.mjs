@@ -48,7 +48,7 @@ export class Board {
     this.fallingShape = Object.create(tetromino);
     this.fallingShape['size'] = this.fallingShape.rotations[0].length;
     this.fallingShape.cornerx = parseInt((this.width - this.fallingShape.size) / 2);
-    /*this.signalFallingShapeMoved();*/
+    /*this.signalFallingTetrominoMoved();*/
     let positions = this.getBlockPositions(this.fallingShape);
     for (let i = 0; i < positions.length; i++) {
       let pos = positions[i];
@@ -73,22 +73,20 @@ export class Board {
 
   moveRight() {
     if (this.fallingShape) {
-      if (this.canMoveRight(this.fallingShape)) {
+      if (this.canFallingTetrominoMoveRight()) {
         this.fallingShape.cornerx += 1;
-        /*this.signalFallingShapeMoved();*/
       }
     }
   }
   moveLeft() {
     if (this.fallingShape) {
-      if (this.canMoveLeft(this.fallingShape)) {
+      if (this.canFallingTetrominoMoveLeft()) {
         this.fallingShape.cornerx -= 1;
-        /*this.signalFallingShapeMoved();*/
       }
     }
   }
   moveDown() {
-    if (this.fallingShape && this.canFall(this.fallingShape)) {
+    if (this.fallingShape && this.canFallingTetrominoMoveDown()) {
       this.tick();
     }
   }
@@ -101,7 +99,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateRight(this.fallingShape)) {
         this._rotateRight(this.fallingShape);
-        /*this.signalFallingShapeMoved();*/
+        /*this.signalFallingTetrominoMoved();*/
         return;
       }
       let topleftcorner = this.fallingShape.cornerx;
@@ -111,7 +109,7 @@ export class Board {
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return;
         }
       }
@@ -122,7 +120,7 @@ export class Board {
         }
         if (this.canRotateRight(this.fallingShape)) {
           this._rotateRight(this.fallingShape);
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return;
         }
       }
@@ -133,7 +131,7 @@ export class Board {
           this.fallingShape.cornery += 1;
         }
         if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return
         }
         this._rotateLeft(this.fallingShape);
@@ -146,7 +144,7 @@ export class Board {
     if (this.fallingShape) {
       if (this.canRotateLeft(this.fallingShape)) {
         this._rotateLeft(this.fallingShape);
-        /*this.signalFallingShapeMoved();*/
+        /*this.signalFallingTetrominoMoved();*/
         return;
       }
       let topleftcorner = this.fallingShape.cornerx;
@@ -156,7 +154,7 @@ export class Board {
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return;
         }
       }
@@ -167,7 +165,7 @@ export class Board {
         }
         if (this.canRotateLeft(this.fallingShape)) {
           this._rotateLeft(this.fallingShape);
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return;
         }
       }
@@ -178,7 +176,7 @@ export class Board {
           this.fallingShape.cornery += 1;
         }
         if (this.areEmptyPositions(this.getBlockPositions(this.fallingShape))) {
-          /*this.signalFallingShapeMoved();*/
+          /*this.signalFallingTetrominoMoved();*/
           return
         }
         this._rotateRight(this.fallingShape);
@@ -190,18 +188,17 @@ export class Board {
 
   tick() {
     if (this.fallingShape) {
-      if (this.canFall(Object.create(this.fallingShape))) {
+      if (this.canFallingTetrominoMoveDown()) {
         this.fallingShape.cornery += 1;
-        /*this.signalFallingShapeMoved();*/
+        /*this.signalFallingTetrominoMoved();*/
       } else {
         const positions = this.getBlockPositions(this.fallingShape);
         for (let p = 0; p < positions.length; p++) {
           const pos = positions[p];
           this.gameField[pos[1]][pos[0]] = this.fallingShape.color;
         }
-        /*this.signalStaticShapesChanged();*/
+        /*this.signalStaticGameFieldChanged();*/
         this.fallingShape = undefined;
-        /*this.clearingRows();*/
         this.clearFullRows();
       }
     }
@@ -224,88 +221,42 @@ export class Board {
     }
   }
 
-  removeRow(rowIndex) {
-    for (let i = 0; i < this.shapes.length; i++) {
-      let shape = this.shapes[i];
-      if (rowIndex >= shape.cornery && rowIndex < shape.cornery + shape.size) {
-        let shapeRowIndex = rowIndex - shape.cornery;
-        let mat = shape.rotations[shape.orientation];
-        mat[shapeRowIndex] = Array(shape.size).fill(0);
+  canFallingTetrominoMove(dx, dy) {
+    const positions = this.getBlockPositions(this.fallingShape);
+    for (let i = 0; i < positions.length; i++) {
+      const pos = positions[i];
+      if (!this.isEmpty(pos[0] + dx, pos[1] + dy)) {
+        return false;
       }
     }
+    return true;
   }
 
-  _moveDown(shape) {
-    if (this.canFall(shape)) {
-      shape.cornery += 1
-    }
+  canFallingTetrominoMoveDown() {
+    return this.canFallingTetrominoMove(0, 1);
   }
 
-  canFall(shape) {
-    let positions = this.getLowestBlockPositions(shape);
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i];
-      let x = pos[0];
-      let y = pos[1];
-      if (!this.isEmpty(x, y + 1)) {
-        return false;
-      }
-    }
-    return true;
+  canFallingTetrominoMoveRight() {
+    return this.canFallingTetrominoMove(1, 0);
   }
-  canMoveRight(shape) {
-    let positions = this.getRightMostBlockPositions(shape);
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i];
-      let x = pos[0];
-      let y = pos[1];
-      if (!this.isEmpty(x + 1, y)) {
-        return false;
-      }
-    }
-    return true;
+
+  canFallingTetrominoMoveLeft() {
+    return this.canFallingTetrominoMove(-1, 0);
   }
-  canMoveLeft(shape) {
-    let positions = this.getLeftMostBlockPositions(shape);
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i];
-      let x = pos[0];
-      let y = pos[1];
-      if (!this.isEmpty(x - 1, y)) {
-        return false;
-      }
-    }
-    return true;
-  }
+
 
   canRotateRight(shape) {
     this._rotateRight(shape);
-    let positions = this.getBlockPositions(shape);
+    const positions = this.getBlockPositions(shape);
     this._rotateLeft(shape);
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i];
-      let x = pos[0];
-      let y = pos[1];
-      if (!this.isEmpty(x, y)) {
-        return false;
-      }
-    }
-    return true;
+    return this.areEmptyPositions(positions);
   }
 
   canRotateLeft(shape) {
     this._rotateLeft(shape);
-    let positions = this.getBlockPositions(shape);
+    const positions = this.getBlockPositions(shape);
     this._rotateRight(shape);
-    for (let i = 0; i < positions.length; i++) {
-      let pos = positions[i];
-      let x = pos[0];
-      let y = pos[1];
-      if (!this.isEmpty(x, y)) {
-        return false;
-      }
-    }
-    return true;
+    return this.areEmptyPositions(positions);
   }
 
   areEmptyPositions(positions) {
@@ -325,6 +276,78 @@ export class Board {
     return (this.gameField[y][x] === undefined);
   }
 
+  getBlockPositions(shape) {
+    if (shape === undefined) { return [] }
+    let positions = [];
+    let matrix = shape.rotations[shape.orientation];
+    for (let r = 0; r < shape.size; r++) {
+      for (let c = 0; c < shape.size; c++) {
+        if (matrix[r][c] > 0) {
+          positions.push([shape.cornerx + c, shape.cornery + r]);
+        }
+      }
+    }
+    return positions;
+  }
+
+  _rotateRight(shape) {
+    if (shape.orientation === shape.rotations.length - 1) {
+      shape.orientation = 0;
+    } else {
+      shape.orientation += 1;
+    }
+  }
+
+  _rotateLeft(shape) {
+    if (shape.orientation === 0) {
+      shape.orientation = shape.rotations.length - 1;
+    } else {
+      shape.orientation -= 1;
+    }
+  }
+
+
+  addObserver(type, object) {
+    if (!this.observers) {
+      this.observers = {};
+    }
+    if (!this.observers[type]) {
+      this.observers[type] = [object];
+    } else {
+      this.observers[type].push(object);
+    }
+  }
+
+  signalFallingTetrominoMoved() {
+    console.log('not implemented')
+  }
+
+  signalStaticGameFieldChanged() {
+    console.log('not implemented')
+  }
+
+  toString() {
+    let str = '';
+    for (let r = 0; r < this.height; r++) {
+      for (let c = 0; c < this.width; c++) {
+        if (this.gameField[r][c] === undefined) {
+          str += '.';
+        } else {
+          str += this.gameField[r][c];
+        }
+      }
+      str += '\n';
+    }
+    let positions = this.getBlockPositions(this.fallingShape);
+    for (let i = 0; i < positions.length; i++) {
+      let row = positions[i][1];
+      let col = positions[i][0];
+      let index = row * (this.width + 1) + col;
+      str = str.substring(0, index) + this.fallingShape.color + str.substring(index + 1);
+    }
+    return str;
+  }
+  /*
   getRightMostBlockPositions(shape) {
     let result = []
     let mat = shape.rotations[shape.orientation];
@@ -375,125 +398,6 @@ export class Board {
     }
     return result;
   }
-
-  getBlockPositions(shape) {
-    if (shape === undefined) { return [] }
-    let positions = [];
-    let matrix = shape.rotations[shape.orientation];
-    for (let r = 0; r < shape.size; r++) {
-      for (let c = 0; c < shape.size; c++) {
-        if (matrix[r][c] > 0) {
-          positions.push([shape.cornerx + c, shape.cornery + r]);
-        }
-      }
-    }
-    return positions;
-  }
-
-  _rotateRight(shape) {
-    if (shape.orientation === shape.rotations.length - 1) {
-      shape.orientation = 0;
-    } else {
-      shape.orientation += 1;
-    }
-  }
-
-  _rotateLeft(shape) {
-    if (shape.orientation === 0) {
-      shape.orientation = shape.rotations.length - 1;
-    } else {
-      shape.orientation -= 1;
-    }
-  }
-
-  signalLinesRemoved(count) {
-    let obs = this.observers.linesremoved;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].linesRemoved(count);
-    }
-  }
-
-  signalFallingShapeMoved() {
-    let obs = this.observers.fallingshapemoved;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].fallingShapeMoved(this.fallingShape);
-    }
-  }
-
-  signalStaticShapesChanged() {
-    let obs = this.observers.staticshapeschanged;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].staticShapesChanged(this.shapes);
-    }
-  }
-
-  signalStaticTetrominosChanged() {
-    let obs = this.observers.statictetrominoschanged;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].staticTetrominosChanged(this.getStaticTetrominoPositionsAndColors());
-    }
-  }
-
-  signalFallingTetrominoChanged() {
-    let obs = this.observers.fallingtetrominochanged;
-    if (!obs) { return }
-    for (let i = 0; i < obs.length; i++) {
-      obs[i].fallingTetrominoChanged(this.getFallingTetrominoPositionAndColor());
-    }
-  }
-
-  addObserver(type, object) {
-    if (!this.observers) {
-      this.observers = {};
-    }
-    if (!this.observers[type]) {
-      this.observers[type] = [object];
-    } else {
-      this.observers[type].push(object);
-    }
-  }
-
-  getFallingTetrominoPositionAndColor() {
-    if (!this.fallingShape) {
-      return undefined;
-    }
-    return { 'color': this.fallingShape.color, 'positions': this.getBlockPositions(this.fallingShape) };
-  }
-
-  getStaticTetrominoPositionsAndColors() {
-    let result = []
-    for (let i = 0; i < this.shapes.length; i++) {
-      let shape = this.shapes[i];
-      let temp = { 'color': shape.color, 'positions': this.getBlockPositions(shape) };
-      result.push(temp);
-    }
-    return result;
-  }
-
-  toString() {
-    let str = '';
-    for (let r = 0; r < this.height; r++) {
-      for (let c = 0; c < this.width; c++) {
-        if (this.gameField[r][c] === undefined) {
-          str += '.';
-        } else {
-          str += this.gameField[r][c];
-        }
-      }
-      str += '\n';
-    }
-    let positions = this.getBlockPositions(this.fallingShape);
-    for (let i = 0; i < positions.length; i++) {
-      let row = positions[i][1];
-      let col = positions[i][0];
-      let index = row * (this.width + 1) + col;
-      str = str.substring(0, index) + this.fallingShape.color + str.substring(index + 1);
-    }
-    return str;
-  }
+*/
 }
 export default Board;

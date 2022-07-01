@@ -15,12 +15,6 @@ describe("Falling and sideways moving tetrominoes", () => {
     board.drop(Tetromino.T_SHAPE);
   });
 
-  it("check if tetromino can move left", () => {
-    expect(board.canMoveLeft(board.fallingShape)).to.be.true;
-  });
-  it("check if tetromino can move right", () => {
-    expect(board.canMoveRight(board.fallingShape)).to.be.true;
-  });
   it("start from the top middle", () => {
     expect(board.toString()).to.equalShape(
       `...TTT....
