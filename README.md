@@ -1,8 +1,8 @@
 # Tetris
 
-Back end for the tetris. Frontend can be found here (https://tdd-tetris-frontend.herokuapp.com/).
+Back end for the tetris. Frontend can be found here https://github.com/tjuho/tdd-tetris-frontend.
 
-Deployed to heroku can be found here ()https://tdd-tetris-frontend.herokuapp.com/)
+Deployed to heroku can be found here https://tdd-tetris-frontend.herokuapp.com/
 
 # The original Readme.md below
 
