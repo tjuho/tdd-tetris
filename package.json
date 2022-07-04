@@ -1,16 +1,14 @@
 {
-  "name": "tdd-mooc-tetris",
+  "name": "tdd-tetris",
   "version": "1.0.0-SNAPSHOT",
-  "description": "Exercise for learning Test-Driven Development",
-  "homepage": "https://github.com/luontola/tdd-mooc-tetris",
+  "homepage": "https://github.com/tjuho/tdd-tetris",
   "author": {
-    "name": "Esko Luontola",
-    "url": "https://www.luontola.fi"
+    "name": "Juho Taipale"
   },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/luontola/tdd-mooc-tetris.git"
+    "url": "https://github.com/tjuho/tdd-tetris.git"
   },
   "private": true,
   "dependencies": {
